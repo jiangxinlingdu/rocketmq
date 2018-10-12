@@ -91,6 +91,7 @@ public class RemotingUtil {
         return isLinuxPlatform;
     }
 
+    //获取本地ip
     public static String getLocalAddress() {
         try {
             // Traversal Network interface to get the first non-loopback and non-private address

@@ -510,6 +510,7 @@ public class MQClientInstance {
         return false;
     }
 
+    //发送心跳到broker
     private void sendHeartbeatToAllBroker() {
         final HeartbeatData heartbeatData = this.prepareHeartbeatData();
         final boolean producerEmpty = heartbeatData.getProducerDataSet().isEmpty();
