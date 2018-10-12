@@ -118,6 +118,7 @@ public class ClientManageProcessor implements NettyRequestProcessor {
         }
 
         for (ProducerData data : heartbeatData.getProducerDataSet()) {
+            //producer管理 后续可以获取到有那些producer
             this.brokerController.getProducerManager().registerProducer(data.getGroupName(),
                 clientChannelInfo);
         }

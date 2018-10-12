@@ -145,6 +145,7 @@ public class ProducerManager {
 
                     clientChannelInfoFound = channelTable.get(clientChannelInfo.getChannel());
                     if (null == clientChannelInfoFound) {
+                        //以group为单位，进行存储
                         channelTable.put(clientChannelInfo.getChannel(), clientChannelInfo);
                         log.info("new producer connected, group: {} channel: {}", group,
                             clientChannelInfo.toString());
