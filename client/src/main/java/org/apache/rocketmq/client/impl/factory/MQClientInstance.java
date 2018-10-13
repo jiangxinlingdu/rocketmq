@@ -275,6 +275,7 @@ public class MQClientInstance {
             @Override
             public void run() {
                 try {
+                    //定时更新
                     MQClientInstance.this.updateTopicRouteInfoFromNameServer();
                 } catch (Exception e) {
                     log.error("ScheduledTask updateTopicRouteInfoFromNameServer exception", e);
@@ -643,6 +644,7 @@ public class MQClientInstance {
                                     Entry<String, MQConsumerInner> entry = it.next();
                                     MQConsumerInner impl = entry.getValue();
                                     if (impl != null) {
+                                        //其实就是存放topic有多少MessageQueue（因为可能变化需要更新，在rebalance也要用）
                                         impl.updateTopicSubscribeInfo(topic, subscribeInfo);
                                     }
                                 }

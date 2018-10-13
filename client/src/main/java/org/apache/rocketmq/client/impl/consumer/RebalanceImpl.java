@@ -397,6 +397,7 @@ public abstract class RebalanceImpl {
             }
         }
 
+        //触发拉取请求
         this.dispatchPullRequest(pullRequestList);
 
         return changed;
