@@ -45,7 +45,7 @@ public class MQClientManager {
     }
 
     public MQClientInstance getAndCreateMQClientInstance(final ClientConfig clientConfig, RPCHook rpcHook) {
-        //clientId ip@进程 的方式
+        //默认是clientId ip@进程 的方式（如果有多个消费不同的topic需要设置setInstanceName）
         String clientId = clientConfig.buildMQClientId();
         MQClientInstance instance = this.factoryTable.get(clientId);
         if (null == instance) {
