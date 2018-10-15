@@ -76,7 +76,7 @@ public class PullMessageService extends ServiceThread {
         return scheduledExecutorService;
     }
 
-    private void pullMessage(final PullRequest pullRequest) {
+    private void  pullMessage(final PullRequest pullRequest) {
         final MQConsumerInner consumer = this.mQClientFactory.selectConsumer(pullRequest.getConsumerGroup());
         if (consumer != null) {
             DefaultMQPushConsumerImpl impl = (DefaultMQPushConsumerImpl) consumer;
