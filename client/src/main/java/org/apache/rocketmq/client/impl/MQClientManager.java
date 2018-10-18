@@ -36,6 +36,9 @@ public class MQClientManager {
 
     }
 
+    /**
+     * 单例，饿汉模式 推荐写法
+     */
     public static MQClientManager getInstance() {
         return instance;
     }
