@@ -25,6 +25,9 @@ import org.apache.rocketmq.common.protocol.body.ConsumeStatus;
 import org.apache.rocketmq.common.stats.StatsItemSet;
 import org.apache.rocketmq.common.stats.StatsSnapshot;
 
+/**
+ *Consumer的一些属性的管理  tps rt等
+ */
 public class ConsumerStatsManager {
     private static final InternalLogger log = ClientLogger.getLog();
 
