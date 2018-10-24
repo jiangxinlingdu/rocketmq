@@ -63,6 +63,7 @@ public class StatsItem {
                 CallSnapshot first = csList.getFirst();
                 CallSnapshot last = csList.getLast();
                 sum = last.getValue() - first.getValue();
+                //每秒处理的消息数（Transaction Per Second）
                 tps = (sum * 1000.0d) / (last.getTimestamp() - first.getTimestamp());
 
                 long timesDiff = last.getTimes() - first.getTimes();
@@ -154,6 +155,9 @@ public class StatsItem {
         }, Math.abs(UtilAll.computNextMorningTimeMillis() - System.currentTimeMillis()) - 2000, 1000 * 60 * 60 * 24, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * 取样
+     */
     public void samplingInSeconds() {
         synchronized (this.csListMinute) {
             this.csListMinute.add(new CallSnapshot(System.currentTimeMillis(), this.times.get(), this.value
