@@ -308,6 +308,7 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
                 }
 
                 if (!msgBackFailed.isEmpty()) {
+                    //需要重试 后续有逻辑
                     consumeRequest.getMsgs().removeAll(msgBackFailed);
 
                     this.submitConsumeRequestLater(msgBackFailed, consumeRequest.getProcessQueue(), consumeRequest.getMessageQueue());
@@ -317,6 +318,7 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
                 break;
         }
 
+        //会操作msgTreeMap，如果重试的情况在上面consumeRequest.getMsgs()已经被清空了
         long offset = consumeRequest.getProcessQueue().removeMessage(consumeRequest.getMsgs());
         if (offset >= 0 && !consumeRequest.getProcessQueue().isDropped()) {
             this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), offset, true);
