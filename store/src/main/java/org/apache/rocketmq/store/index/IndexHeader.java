@@ -20,6 +20,9 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ *索引文件头
+ */
 public class IndexHeader {
     public static final int INDEX_HEADER_SIZE = 40;
     private static int beginTimestampIndex = 0;
@@ -42,6 +45,14 @@ public class IndexHeader {
     }
 
     public void load() {
+        /** INDEX_HEADER_SIZE  索引文件头信息40个字节的数据组成
+         * beginTimestamp    		8位long类型，索引文件构建第一个索引的消息落在broker的时间
+         endTimestamp         	8位long类型，索引文件构建最后一个索引消息落broker时间
+         beginPhyOffset         	8位long类型，索引文件构建第一个索引的消息commitLog偏移量
+         endPhyOffset            	8位long类型，索引文件构建最后一个索引消息commitLog偏移量
+         hashSlotCount    			4位int类型，构建索引占用的槽位数(这个值貌似没有具体作用)
+         indexCount               	4位int类型，索引文件中构建的索引个数
+         */
         this.beginTimestamp.set(byteBuffer.getLong(beginTimestampIndex));
         this.endTimestamp.set(byteBuffer.getLong(endTimestampIndex));
         this.beginPhyOffset.set(byteBuffer.getLong(beginPhyoffsetIndex));
@@ -55,7 +66,19 @@ public class IndexHeader {
         }
     }
 
+    /**
+     * 更新byteBuffer
+     */
     public void updateByteBuffer() {
+        /** INDEX_HEADER_SIZE  索引文件头信息40个字节的数据组成
+         * beginTimestamp    		8位long类型，索引文件构建第一个索引的消息落在broker的时间
+         endTimestamp         	8位long类型，索引文件构建最后一个索引消息落broker时间
+         beginPhyOffset         	8位long类型，索引文件构建第一个索引的消息commitLog偏移量
+         endPhyOffset            	8位long类型，索引文件构建最后一个索引消息commitLog偏移量
+         hashSlotCount    			4位int类型，构建索引占用的槽位数(这个值貌似没有具体作用)
+         indexCount               	4位int类型，索引文件中构建的索引个数
+         */
+
         this.byteBuffer.putLong(beginTimestampIndex, this.beginTimestamp.get());
         this.byteBuffer.putLong(endTimestampIndex, this.endTimestamp.get());
         this.byteBuffer.putLong(beginPhyoffsetIndex, this.beginPhyOffset.get());
