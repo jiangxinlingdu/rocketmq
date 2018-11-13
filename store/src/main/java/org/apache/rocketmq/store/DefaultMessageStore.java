@@ -191,6 +191,7 @@ public class DefaultMessageStore implements MessageStore {
 
                 this.indexService.load(lastExitOK);
 
+                //恢复
                 this.recover(lastExitOK);
 
                 log.info("load over, and the max phy offset = {}", this.getMaxPhyOffset());
@@ -1162,6 +1163,7 @@ public class DefaultMessageStore implements MessageStore {
 
     /**
      * @throws IOException
+     * 创建abort（中断）文件
      */
     private void createTempFile() throws IOException {
         String fileName = StorePathConfigHelper.getAbortFile(this.messageStoreConfig.getStorePathRootDir());
