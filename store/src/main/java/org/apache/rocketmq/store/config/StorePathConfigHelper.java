@@ -32,10 +32,12 @@ public class StorePathConfigHelper {
         return rootDir + File.separator + "index";
     }
 
+    //检查点
     public static String getStoreCheckpoint(final String rootDir) {
         return rootDir + File.separator + "checkpoint";
     }
 
+    //中断
     public static String getAbortFile(final String rootDir) {
         return rootDir + File.separator + "abort";
     }
