@@ -103,6 +103,7 @@ public class ScheduleMessageService extends ConfigManager {
 
     public void start() {
 
+        //延迟相关都需要执行一次 启动的时候
         for (Map.Entry<Integer, Long> entry : this.delayLevelTable.entrySet()) {
             Integer level = entry.getKey();
             Long timeDelay = entry.getValue();
