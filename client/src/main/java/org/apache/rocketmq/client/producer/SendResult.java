@@ -21,10 +21,14 @@ import org.apache.rocketmq.common.message.MessageQueue;
 
 public class SendResult {
     private SendStatus sendStatus;
+
+    //客户端生成的id
     private String msgId;
     private MessageQueue messageQueue;
     private long queueOffset;
     private String transactionId;
+
+    //服务端生成的id
     private String offsetMsgId;
     private String regionId;
     private boolean traceOn = true;
