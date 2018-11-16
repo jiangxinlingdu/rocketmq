@@ -74,8 +74,13 @@ public class UtilAll {
 
     public static String offset2FileName(final long offset) {
         final NumberFormat nf = NumberFormat.getInstance();
+        //设置数的整数部分所允许的最小位数
         nf.setMinimumIntegerDigits(20);
+
+        //返回数的小数部分所允许的最大位数
         nf.setMaximumFractionDigits(0);
+
+        //设置此格式中不使用分组
         nf.setGroupingUsed(false);
         return nf.format(offset);
     }
