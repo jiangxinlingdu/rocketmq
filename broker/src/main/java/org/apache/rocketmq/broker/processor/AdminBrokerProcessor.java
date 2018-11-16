@@ -358,6 +358,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
         return response;
     }
 
+    // 根据时间查询Offset
     private RemotingCommand searchOffsetByTimestamp(ChannelHandlerContext ctx,
         RemotingCommand request) throws RemotingCommandException {
         final RemotingCommand response = RemotingCommand.createResponseCommand(SearchOffsetResponseHeader.class);

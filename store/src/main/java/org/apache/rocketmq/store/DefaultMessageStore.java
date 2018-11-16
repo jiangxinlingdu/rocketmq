@@ -646,6 +646,7 @@ public class DefaultMessageStore implements MessageStore {
         return 0;
     }
 
+    // 根据时间查询Offset
     public long getOffsetInQueueByTime(String topic, int queueId, long timestamp) {
         ConsumeQueue logic = this.findConsumeQueue(topic, queueId);
         if (logic != null) {

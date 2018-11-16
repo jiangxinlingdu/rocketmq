@@ -151,11 +151,14 @@ public class ConsumeQueue {
         }
     }
 
+    // 二分查找查找消息发送时间最接近timestamp逻辑队列的offset
     public long getOffsetInQueueByTime(final long timestamp) {
         MappedFile mappedFile = this.mappedFileQueue.getMappedFileByTime(timestamp);
         if (mappedFile != null) {
             long offset = 0;
+            // low:第一个索引信息的起始位置
             int low = minLogicOffset > mappedFile.getFileFromOffset() ? (int) (minLogicOffset - mappedFile.getFileFromOffset()) : 0;
+            // high:最后一个索引信息的起始位置
             int high = 0;
             int midOffset = -1, targetOffset = -1, leftOffset = -1, rightOffset = -1;
             long leftIndexValue = -1L, rightIndexValue = -1L;
@@ -166,6 +169,7 @@ public class ConsumeQueue {
                 high = byteBuffer.limit() - CQ_STORE_UNIT_SIZE;
                 try {
                     while (high >= low) {
+                        //取中间的offset ( (low + high) / (2 * CQ_STORE_UNIT_SIZE) )     * CQ_STORE_UNIT_SIZE (20就是一个周期）
                         midOffset = (low + high) / (2 * CQ_STORE_UNIT_SIZE) * CQ_STORE_UNIT_SIZE;
                         byteBuffer.position(midOffset);
                         long phyOffset = byteBuffer.getLong();
@@ -176,9 +180,11 @@ public class ConsumeQueue {
                             continue;
                         }
 
+                        //是存储消息时间戳StoreTimestamp 而不是生成消息时间戳BornTimestamp
                         long storeTime =
                             this.defaultMessageStore.getCommitLog().pickupStoreTimestamp(phyOffset, size);
                         if (storeTime < 0) {
+                            // 没有从物理文件找到消息，此时直接返回0
                             return 0;
                         } else if (storeTime == timestamp) {
                             targetOffset = midOffset;
