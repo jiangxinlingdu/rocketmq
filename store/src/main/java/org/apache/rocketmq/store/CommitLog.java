@@ -624,7 +624,10 @@ public class CommitLog {
         storeStatsService.getSinglePutMessageTopicTimesTotal(msg.getTopic()).incrementAndGet();
         storeStatsService.getSinglePutMessageTopicSizeTotal(topic).addAndGet(result.getWroteBytes());
 
+        //处理同异步刷盘逻辑
         handleDiskFlush(result, putMessageResult, msg);
+
+        //处理主从双机同异步同步逻辑
         handleHA(result, putMessageResult, msg);
 
         return putMessageResult;

@@ -226,6 +226,7 @@ public class ConsumeQueue {
         return 0;
     }
 
+    //根据物理Offset删除无效逻辑文件
     public void truncateDirtyLogicFiles(long phyOffet) {
 
         int logicFileSize = this.mappedFileSize;
