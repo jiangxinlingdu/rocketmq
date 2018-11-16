@@ -200,10 +200,12 @@ public class MappedFileQueue {
         MappedFile mappedFileLast = getLastMappedFile();
 
         if (mappedFileLast == null) {
+            //给定startOffset ，以mappedFileSize为一个周期，找该startOffset在那个周期里
             createOffset = startOffset - (startOffset % this.mappedFileSize);
         }
 
         if (mappedFileLast != null && mappedFileLast.isFull()) {
+            //后续的文件命名 就是前面一个文件数+mappedFileSize即可，就是再加一mappedFileSize周期即可。
             createOffset = mappedFileLast.getFileFromOffset() + this.mappedFileSize;
         }
 
