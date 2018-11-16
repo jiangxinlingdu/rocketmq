@@ -176,6 +176,8 @@ public class AllocateMappedFileService extends ServiceThread {
                 MappedFile mappedFile;
                 if (messageStore.getMessageStoreConfig().isTransientStorePoolEnable()) {
                     try {
+                        //ServiceLoader是SPI的是一种实现，所谓SPI，即Service Provider Interface。
+                        // 用于一些服务提供给第三方实现或者扩展，可以增强框架的扩展或者替换一些组件。
                         mappedFile = ServiceLoader.load(MappedFile.class).iterator().next();
                         mappedFile.init(req.getFilePath(), req.getFileSize(), messageStore.getTransientStorePool());
                     } catch (RuntimeException e) {
