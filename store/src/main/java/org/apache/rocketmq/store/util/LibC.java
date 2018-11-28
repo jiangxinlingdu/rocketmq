@@ -22,7 +22,22 @@ import com.sun.jna.NativeLong;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 
+/**
+ * JNA(Java Native Access)是一个开源的Java框架，
+ * 是Sun公司推出的一种调用本地方法的技术，是建立在经典的JNI基础之上的一个框架。
+ *
+ *
+ *  <dependency>
+ *                 <groupId>net.java.dev.jna</groupId>
+ *                 <artifactId>jna</artifactId>
+ *                 <version>4.2.2</version>
+ *             </dependency>
+ */
 public interface LibC extends Library {
+
+    /**
+     * 接口内部需要一个公共静态常量：INSTANCE，通过这个常量，就可以获得这个接口的实例，从而使用接口的方法，也就是调用外部dll/so的函数。
+     */
     LibC INSTANCE = (LibC) Native.loadLibrary(Platform.isWindows() ? "msvcrt" : "c", LibC.class);
 
     int MADV_WILLNEED = 3;
