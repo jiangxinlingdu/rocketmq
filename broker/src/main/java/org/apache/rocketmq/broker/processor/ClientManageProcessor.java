@@ -71,6 +71,9 @@ public class ClientManageProcessor implements NettyRequestProcessor {
         return false;
     }
 
+    /**
+     * 心跳
+     */
     public RemotingCommand heartBeat(ChannelHandlerContext ctx, RemotingCommand request) {
         RemotingCommand response = RemotingCommand.createResponseCommand(null);
         HeartbeatData heartbeatData = HeartbeatData.decode(request.getBody(), HeartbeatData.class);
