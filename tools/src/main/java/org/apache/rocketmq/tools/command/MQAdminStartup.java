@@ -80,7 +80,7 @@ public class MQAdminStartup {
     protected static List<SubCommand> subCommandList = new ArrayList<SubCommand>();
 
 
-    //需要配置 program arguments参数：比如：statsAll -n 127.0.0.1:9876 即可进行调试
+    //需要配置 program arguments参数：比如：statsAll -n 127.0.0.1:9876 即可进行调试，备注多个namesrv不用加单引号或者双影号
     public static void main(String[] args) {
         main0(args, null);
     }
@@ -93,7 +93,7 @@ public class MQAdminStartup {
         initCommand();
 
         try {
-            initLogback();
+            //initLogback();
             switch (args.length) {
                 case 0:
                     printHelp();
