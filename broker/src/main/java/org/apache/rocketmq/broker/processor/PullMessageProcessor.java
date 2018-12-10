@@ -191,7 +191,7 @@ public class PullMessageProcessor implements NettyRequestProcessor {
                 return response;
             }
 
-            if("TopicTest".equals(requestHeader.getTopic())){
+          /*  if("TopicTest".equals(requestHeader.getTopic())){
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
                 System.out.println(subscriptionData.getSubVersion() + "====" + requestHeader.getSubVersion());
@@ -200,7 +200,7 @@ public class PullMessageProcessor implements NettyRequestProcessor {
                     System.out.println(simpleDateFormat.format(new Date(requestHeader.getSubVersion())) + "==***requestHeader**=="+requestHeader.getQueueId());
                 } catch (Exception e) {
                 }
-            }
+            }*/
 
             if (subscriptionData.getSubVersion() < requestHeader.getSubVersion()) {
                 log.warn("The broker's subscription is not latest, group: {} {}", requestHeader.getConsumerGroup(),

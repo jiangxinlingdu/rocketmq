@@ -293,9 +293,9 @@ public abstract class RebalanceImpl {
 
                     boolean changed = this.updateProcessQueueTableInRebalance(topic, allocateResultSet, isOrder);
 
-                    if("TopicTest".equals(topic)){
+                  /*  if("TopicTest".equals(topic)){
                         System.out.println("changed=" + changed + "==========" );
-                    }
+                    }*/
 
                     if (changed) {
                         log.info(
