@@ -312,6 +312,9 @@ public abstract class RebalanceImpl {
         }
     }
 
+    /**
+     * 由于动态调整，可能前一刻属于它的queue这一刻就不属于了，就删除这些。
+     */
     private void truncateMessageQueueNotMyTopic() {
         Map<String, SubscriptionData> subTable = this.getSubscriptionInner();
 
