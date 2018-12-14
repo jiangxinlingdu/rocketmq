@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.rocketmq.remoting.RemotingService</OriginalElement>
+  <nodes>
+    <node x="0.0" y="200.0">org.apache.rocketmq.remoting.netty.NettyRemotingClient</node>
+    <node x="27.5" y="100.0">org.apache.rocketmq.remoting.RemotingClient</node>
+    <node x="178.75" y="0.0">org.apache.rocketmq.remoting.RemotingService</node>
+    <node x="340.5" y="100.0">org.apache.rocketmq.remoting.RemotingServer</node>
+    <node x="313.0" y="200.0">org.apache.rocketmq.remoting.netty.NettyRemotingServer</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.rocketmq.remoting.RemotingClient" target="org.apache.rocketmq.remoting.RemotingService">
+      <point x="0.0" y="-25.0" />
+      <point x="146.5" y="75.0" />
+      <point x="240.75" y="75.0" />
+      <point x="-62.0" y="25.0" />
+    </edge>
+    <edge source="org.apache.rocketmq.remoting.RemotingServer" target="org.apache.rocketmq.remoting.RemotingService">
+      <point x="0.0" y="-25.0" />
+      <point x="459.0" y="75.0" />
+      <point x="364.75" y="75.0" />
+      <point x="62.0" y="25.0" />
+    </edge>
+    <edge source="org.apache.rocketmq.remoting.netty.NettyRemotingClient" target="org.apache.rocketmq.remoting.RemotingClient">
+      <point x="0.0" y="-25.0" />
+      <point x="0.0" y="25.0" />
+    </edge>
+    <edge source="org.apache.rocketmq.remoting.netty.NettyRemotingServer" target="org.apache.rocketmq.remoting.RemotingServer">
+      <point x="0.0" y="-25.0" />
+      <point x="0.0" y="25.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="-133.0" y="223.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
