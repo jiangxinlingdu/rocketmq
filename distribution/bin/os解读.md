@@ -20,6 +20,7 @@ export PATH=$PATH:/sbin
 
 # sudo sysctl -w vm.extra_free_kbytes=2000000
 # sudo sysctl -w vm.min_free_kbytes=1000000
+
 sudo sysctl -w vm.overcommit_memory=1
 
 默认值为：0
@@ -30,6 +31,7 @@ sudo sysctl -w vm.overcommit_memory=1
 
 
 sudo sysctl -w vm.drop_caches=1
+
 向/proc/sys/vm/drop_caches文件中写入数值可以使内核释放page cache，dentries和inodes缓存所占的内存。
 只释放pagecache：
 echo 1 > /proc/sys/vm/drop_caches
@@ -81,10 +83,36 @@ sudo sysctl -w vm.swappiness=1
 减少系统对于swap频繁的写入，将加快应用程序之间的切换，有助于提升系统性能。默认值为60。
 
 echo 'ulimit -n 655350' >> /etc/profile
-echo '* hard nofile 655350' >> /etc/security/limits.conf
 
+echo '* hard nofile 655350' >> /etc/security/limits.conf
 echo '* hard memlock      unlimited' >> /etc/security/limits.conf
 echo '* soft memlock      unlimited' >> /etc/security/limits.conf
+
+limits.conf文件实际上是linux PAM中pam_limits.so的配置文件，而且只针对于单个会话。
+limits.conf的格式如下：
+<domain>　　<type>　　<item>　　<value>
+domain有好几种格式，具体可以用man limits.conf来查看，不过一般来说，我们都是用的用户名和组名的形式：username|@groupname
+设置需要被限制的用户名，组名前面加@和用户名区别。也可以用通配符*来做所有的限制。
+type：有soft，hard和-，soft指的是当前系统生效的设置值，软限制也可以理解为警告值。hard表名系统中所能设定的最大值。soft的限制不能比hard限制高，用-表名同时设置了soft和hard的值。
+item表明需要限制的使用资源类型
+core　　限制内核文件的大小
+date　　最大数据大小
+fsize　　最大文件大小
+memlock　　最大锁定内存地址空间
+nofile　　打开文件的最大数目
+rss　　最大持久设置大小
+stack　　最大栈大小
+cpu　　以分钟为单位的最多CPU时间
+noproc 进程的最大数目
+as　　地址空间限制
+maxlogins　　此用户允许登录的最大数目
+要是limits.conf文件配置生效，必须确保pam_limits.so文件被加入到启动文件中，要查看/etc/pam.d/login文件中有session required /lib/security/pam_limits.so
+
+ulimit命令，用于shell启动进程所占用的资源限制
+一般可以通过使用ulimit命令或者编辑/etc/security/limits.conf重新加载的方式来使限制生效。
+通过ulimit比较直接，但只在当前的session有效，limits.conf中可以根据用户和限制项使用户在下次登录中生效。对于limits.conf的设定是通过pam_limits.co的加载生效的，比如/etc/pam.d/sshd这样通过ssh登录时会加载limit又或者在/etc/pam.d/login加载生效。
+
+
 
 DISK=`df -k | sort -n -r -k 2 | awk -F/ 'NR==1 {gsub(/[0-9].*/,"",$3); print $3}'`
 [ "$DISK" = 'cciss' ] && DISK='cciss!c0d0'
