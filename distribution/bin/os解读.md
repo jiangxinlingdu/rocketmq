@@ -83,8 +83,8 @@ sudo sysctl -w vm.swappiness=1
 减少系统对于swap频繁的写入，将加快应用程序之间的切换，有助于提升系统性能。默认值为60。
 
 echo 'ulimit -n 655350' >> /etc/profile
-
 echo '* hard nofile 655350' >> /etc/security/limits.conf
+
 echo '* hard memlock      unlimited' >> /etc/security/limits.conf
 echo '* soft memlock      unlimited' >> /etc/security/limits.conf
 
