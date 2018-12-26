@@ -161,6 +161,8 @@ public class IndexFile {
 
     public int indexKeyHashMethod(final String key) {
         int keyHash = key.hashCode();
+
+        //可能很多人不理解,为什么以及绝对值了,还要判断是否为负数,其实在Math.abs(Integer.MIN_VALUE)返回的就是负数，可以试试。
         int keyHashPositive = Math.abs(keyHash);
         if (keyHashPositive < 0)
             keyHashPositive = 0;
