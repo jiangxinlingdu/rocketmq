@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * This example shows how to subscribe and consume messages using providing {@link DefaultMQPushConsumer}.
  */
-public class Consumer1 {
+public class ConsumerBatch {
 
     public static void main(String[] args) throws InterruptedException, MQClientException {
 
