@@ -432,6 +432,9 @@ public class MQClientAPIImpl {
         });
     }
 
+    /**
+     *retryTimesWhenSendAsyncFailed，如果异步发送失败了，会重试
+     */
     private void onExceptionImpl(final String brokerName,
         final Message msg,
         final long timeoutMillis,
