@@ -81,6 +81,7 @@ public class MQAdminStartup {
 
 
     //需要配置 program arguments参数：比如：statsAll -n 127.0.0.1:9876 即可进行调试，备注多个namesrv不用加单引号或者双影号
+    //updateBrokerConfig -c DefaultCluster -n  127.0.0.1:9876  -k messageDelayLevel -v "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h"
     public static void main(String[] args) {
         main0(args, null);
     }
