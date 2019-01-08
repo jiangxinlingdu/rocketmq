@@ -16,9 +16,6 @@
  */
 package org.apache.rocketmq.example.other;
 
-import java.util.List;
-
-import com.alibaba.fastjson.JSON;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -26,11 +23,12 @@ import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.hook.ConsumeMessageContext;
 import org.apache.rocketmq.client.hook.ConsumeMessageHook;
-import org.apache.rocketmq.client.hook.SendMessageContext;
-import org.apache.rocketmq.client.hook.SendMessageHook;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.remoting.common.RemotingUtil;
+
+import java.util.List;
 
 /**
  * This example shows how to subscribe and consume messages using providing {@link DefaultMQPushConsumer}.
@@ -61,6 +59,7 @@ public class Consumer {
             @Override
             public void consumeMessageBefore(ConsumeMessageContext context) {
                 System.out.println(UtilAll.ipToIPv4Str(UtilAll.getIP()));
+                System.out.println(RemotingUtil.getLocalAddress());
                 System.out.println(context.getConsumerGroup());
                 System.out.println(context.getMsgList());
                 System.out.println(context.getMq());
