@@ -29,6 +29,10 @@ import org.apache.rocketmq.common.message.MessageQueue;
 
 /**
  * Consistent Hashing queue algorithm
+ *
+ * 默认的取模平均策略，对消费端的上下线非常铭感，不管消费多了还是少了，都需要重新分配去掉一些队列或者加队列
+ * 这将导致生成到消费的延迟增大，而且消费端可能会重复（有可能offset没有持久化到broker队列被分配到了另外的消费去拉数据）
+ * 而AllocateMessageQueueConsistentHash（一致性哈希算法）对于上下线非常就不会那么敏感了。
  */
 public class AllocateMessageQueueConsistentHash implements AllocateMessageQueueStrategy {
     private final InternalLogger log = ClientLogger.getLog();
