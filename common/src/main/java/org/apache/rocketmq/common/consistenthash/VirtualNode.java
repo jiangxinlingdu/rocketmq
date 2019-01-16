@@ -17,8 +17,8 @@
 package org.apache.rocketmq.common.consistenthash;
 
 public class VirtualNode<T extends Node> implements Node {
-    final T physicalNode;
-    final int replicaIndex;
+    final T physicalNode;// 主节点
+    final int replicaIndex;// 虚节点下标
 
     public VirtualNode(T physicalNode, int replicaIndex) {
         this.replicaIndex = replicaIndex;
@@ -30,6 +30,9 @@ public class VirtualNode<T extends Node> implements Node {
         return physicalNode.getKey() + "-" + replicaIndex;
     }
 
+    /**
+     * 是否是虚节点
+     */
     public boolean isVirtualNodeOf(T pNode) {
         return physicalNode.getKey().equals(pNode.getKey());
     }
