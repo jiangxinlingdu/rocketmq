@@ -60,10 +60,12 @@ public class ManyMessageTransfer extends AbstractReferenceCounted implements Fil
 
     @Override
     public long transferTo(WritableByteChannel target, long position) throws IOException {
+        //写消息头信息
         if (this.byteBufferHeader.hasRemaining()) {
             transferred += target.write(this.byteBufferHeader);
             return transferred;
         } else {
+            //写消息体信息
             List<ByteBuffer> messageBufferList = this.getMessageResult.getMessageBufferList();
             for (ByteBuffer bb : messageBufferList) {
                 if (bb.hasRemaining()) {
