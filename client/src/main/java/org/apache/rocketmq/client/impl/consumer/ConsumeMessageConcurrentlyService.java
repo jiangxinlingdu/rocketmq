@@ -321,7 +321,8 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
         //会操作msgTreeMap，如果重试的情况在上面consumeRequest.getMsgs()已经被清空了
         long offset = consumeRequest.getProcessQueue().removeMessage(consumeRequest.getMsgs());
         if (offset >= 0 && !consumeRequest.getProcessQueue().isDropped()) {
-            //如果上面重试执行了， 但是这里还没有来得及执行，那么重试队列也会多。
+            //如果上面重试发送成功了，这个时候队列重新分配了（包括添加、删除消费节点）， 但是这里还没有来得及执行，那么重试队列也会多。
+            //也有可能消费成功了 ，对象重新分配导致重复了
             this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), offset, true);
         }
     }
