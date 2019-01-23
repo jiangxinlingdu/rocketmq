@@ -786,6 +786,8 @@ public class CommitLog {
 
     /**
      * According to receive certain message or offset storage time if an error occurs, it returns -1
+     *
+     * 优秀
      */
     public long pickupStoreTimestamp(final long offset, final int size) {
         if (offset >= this.getMinOffset()) {
