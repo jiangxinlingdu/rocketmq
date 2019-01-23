@@ -54,7 +54,7 @@ public class ConsumerBak {
                 ConsumeConcurrentlyContext context) {
                 System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
 
-                //假如msgs里面的消息很多有400条，但是在399那条失败了，不想让都重试，就重试其中一条即可，整体返回成功即可。
+                //假如msgs里面的消息很多有400条，但是第一条失败了，其他都成功，不想让都重试，就重试其中一条即可，整体返回成功即可。
                 s.sendMessageBack(msgs.get(0),context);
 
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
