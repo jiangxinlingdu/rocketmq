@@ -16,6 +16,9 @@
  */
 package org.apache.rocketmq.common.sysflag;
 
+/**
+ * MESSAGE存储到commlog的第8个位置
+ */
 public class MessageSysFlag {
     public final static int COMPRESSED_FLAG = 0x1;
     public final static int MULTI_TAGS_FLAG = 0x1 << 1;
