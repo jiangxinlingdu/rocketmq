@@ -742,6 +742,9 @@ public class DefaultMQAdminExtImpl implements MQAdminExt, MQAdminExtInner {
         }
     }
 
+    /**
+     * 消息跟踪细节
+     */
     @Override
     public List<MessageTrack> messageTrackDetail(
         MessageExt msg) throws RemotingException, MQClientException, InterruptedException,
