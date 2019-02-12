@@ -68,6 +68,7 @@ public class StatsItem {
 
                 long timesDiff = last.getTimes() - first.getTimes();
                 if (timesDiff > 0) {
+                    //平均一次处理多少
                     avgpt = (sum * 1.0d) / timesDiff;
                 }
             }
