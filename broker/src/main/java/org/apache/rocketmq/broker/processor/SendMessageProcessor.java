@@ -315,7 +315,10 @@ public class SendMessageProcessor extends AbstractSendMessageProcessor implement
         }
 
         response.setCode(-1);
+
+        //一些检查，包括检查该broker是否有写的权限 等 isWriteable
         super.msgCheck(ctx, requestHeader, response);
+
         if (response.getCode() != -1) {
             return response;
         }
