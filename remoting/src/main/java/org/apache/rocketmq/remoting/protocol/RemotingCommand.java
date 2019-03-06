@@ -162,6 +162,7 @@ public class RemotingCommand {
         return cmd;
     }
 
+    //控制长度，如果太长 高位就置零了
     public static int getHeaderLength(int length) {
         return length & 0xFFFFFF;
     }
