@@ -28,10 +28,10 @@ import com.sun.jna.Pointer;
  *
  *
  *  <dependency>
- *                 <groupId>net.java.dev.jna</groupId>
- *                 <artifactId>jna</artifactId>
- *                 <version>4.2.2</version>
- *             </dependency>
+ *      <groupId>net.java.dev.jna</groupId>
+ *      <artifactId>jna</artifactId>
+ *      <version>4.2.2</version>
+ * </dependency>
  */
 public interface LibC extends Library {
 
