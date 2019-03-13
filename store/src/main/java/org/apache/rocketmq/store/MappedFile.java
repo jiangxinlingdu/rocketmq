@@ -559,13 +559,13 @@ public class MappedFile extends ReferenceResource {
         final long address = ((DirectBuffer) (this.mappedByteBuffer)).address();
         Pointer pointer = new Pointer(address);
         {
-            //实现将锁住指定的内存区域避免被操作系统调到swap空间中
+            //实现锁住指定的内存区域 避免被操作系统调到swap空间中
             int ret = LibC.INSTANCE.mlock(pointer, new NativeLong(this.fileSize));
             log.info("mlock {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret, System.currentTimeMillis() - beginTime);
         }
 
         {
-            //实现一次性先将一段数据读入到映射内存区域，这样就减少了缺页异常的产生。
+            //实现一次性将一段数据读入到映射内存区域，这样就减少了缺页异常的产生。
             int ret = LibC.INSTANCE.madvise(pointer, new NativeLong(this.fileSize), LibC.MADV_WILLNEED);
             log.info("madvise {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret, System.currentTimeMillis() - beginTime);
         }
