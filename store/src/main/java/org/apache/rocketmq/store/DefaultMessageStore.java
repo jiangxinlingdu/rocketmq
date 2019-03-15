@@ -1748,6 +1748,7 @@ public class DefaultMessageStore implements MessageStore {
             return this.reputFromOffset < DefaultMessageStore.this.commitLog.getMaxOffset();
         }
 
+        //重新发送到逻辑队列
         private void doReput() {
             for (boolean doNext = true; this.isCommitLogAvailable() && doNext; ) {
 
@@ -1756,17 +1757,23 @@ public class DefaultMessageStore implements MessageStore {
                     break;
                 }
 
+                //从CommitLog中读取上次偏移量之后的新消息
                 SelectMappedBufferResult result = DefaultMessageStore.this.commitLog.getData(reputFromOffset);
                 if (result != null) {
                     try {
+                        // 当主机有很多数据，备机没有数据时，此时启动备机，备机会从主机的末尾开始拉数据
+                        // 这时reputFromOffset的初始值和commitlog的值不匹配。
                         this.reputFromOffset = result.getStartOffset();
 
+                        //顺序读
                         for (int readSize = 0; readSize < result.getSize() && doNext; ) {
+                            //获取DispatchRequest【分发消息位置信息到逻辑队列和索引服务】
                             DispatchRequest dispatchRequest =
                                 DefaultMessageStore.this.commitLog.checkMessageAndReturnSize(result.getByteBuffer(), false, false);
                             int size = dispatchRequest.getMsgSize();
 
                             if (dispatchRequest.isSuccess()) {
+                                // 正常数据
                                 if (size > 0) {
                                     DefaultMessageStore.this.doDispatch(dispatchRequest);
 
@@ -1787,7 +1794,9 @@ public class DefaultMessageStore implements MessageStore {
                                             .getSinglePutMessageTopicSizeTotal(dispatchRequest.getTopic())
                                             .addAndGet(dispatchRequest.getMsgSize());
                                     }
-                                } else if (size == 0) {
+                                }
+                                // 走到文件末尾，切换至下一个文件
+                                else if (size == 0) {
                                     this.reputFromOffset = DefaultMessageStore.this.commitLog.rollNextFile(this.reputFromOffset);
                                     readSize = result.getSize();
                                 }
@@ -1823,6 +1832,7 @@ public class DefaultMessageStore implements MessageStore {
             while (!this.isStopped()) {
                 try {
                     Thread.sleep(1);
+                    //重新发送到逻辑队列
                     this.doReput();
                 } catch (Exception e) {
                     DefaultMessageStore.log.warn(this.getServiceName() + " service has exception. ", e);
