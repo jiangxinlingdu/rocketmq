@@ -404,6 +404,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
                 return;
             }
 
+            //1）可以锁住同一队列
             final Object objLock = messageQueueLock.fetchLockObject(this.messageQueue);
             synchronized (objLock) {
                 if (MessageModel.BROADCASTING.equals(ConsumeMessageOrderlyService.this.defaultMQPushConsumerImpl.messageModel())
@@ -461,6 +462,9 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
                             ConsumeReturnType returnType = ConsumeReturnType.SUCCESS;
                             boolean hasException = false;
                             try {
+
+                                //2) removeUnnecessaryMessageQueue方法，pq.getLockConsume().tryLock(1000, TimeUnit.MILLISECONDS)，如果失败表示应该还有在处理，需要过会在移除
+                                //由于this.processQueue.getLockConsume()是全局的 从而也会导致 其他队列也需要等（上面的sync锁的是同一个队列）
                                 this.processQueue.getLockConsume().lock();
                                 if (this.processQueue.isDropped()) {
                                     log.warn("consumeMessage, the message queue not be able to consume, because it's dropped. {}",
