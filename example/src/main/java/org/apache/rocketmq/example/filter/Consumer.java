@@ -31,7 +31,7 @@ public class Consumer {
 
     public static void main(String[] args) throws InterruptedException, MQClientException, IOException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("ConsumerGroupNamecc4");
-
+        consumer.setNamesrvAddr("127.0.0.1:9876");
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         File classFile = new File(classLoader.getResource("MessageFilterImpl.java").getFile());
 
