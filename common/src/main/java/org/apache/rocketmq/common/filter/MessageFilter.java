@@ -20,5 +20,6 @@ package org.apache.rocketmq.common.filter;
 import org.apache.rocketmq.common.message.MessageExt;
 
 public interface MessageFilter {
+    //是否匹配
     boolean match(final MessageExt msg, final FilterContext context);
 }
