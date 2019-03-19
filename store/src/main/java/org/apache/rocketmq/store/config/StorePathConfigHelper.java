@@ -32,12 +32,12 @@ public class StorePathConfigHelper {
         return rootDir + File.separator + "index";
     }
 
-    //检查点
+    //检查点 checkpoint作用是当异常恢复时需要根据checkpoint点来恢复消息
     public static String getStoreCheckpoint(final String rootDir) {
         return rootDir + File.separator + "checkpoint";
     }
 
-    //中断
+    //中断 当存在abort文件，系统认为是异常恢复
     public static String getAbortFile(final String rootDir) {
         return rootDir + File.separator + "abort";
     }
