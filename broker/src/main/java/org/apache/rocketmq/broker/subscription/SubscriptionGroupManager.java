@@ -31,9 +31,19 @@ import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 public class SubscriptionGroupManager extends ConfigManager {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
 
+=======
+/**
+ * 用来管理订阅组，包括订阅权限等
+ */
+public class SubscriptionGroupManager extends ConfigManager {
+    private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
+
+ // 订阅组
+>>>>>>> rmq/master
     private final ConcurrentMap<String, SubscriptionGroupConfig> subscriptionGroupTable =
         new ConcurrentHashMap<String, SubscriptionGroupConfig>(1024);
     private final DataVersion dataVersion = new DataVersion();
@@ -109,6 +119,13 @@ public class SubscriptionGroupManager extends ConfigManager {
         this.persist();
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 不能消费，设置消费标记为false
+     * @param groupName
+     */
+>>>>>>> rmq/master
     public void disableConsume(final String groupName) {
         SubscriptionGroupConfig old = this.subscriptionGroupTable.get(groupName);
         if (old != null) {

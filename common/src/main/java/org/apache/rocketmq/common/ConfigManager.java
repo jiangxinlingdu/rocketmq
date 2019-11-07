@@ -21,6 +21,12 @@ import org.apache.rocketmq.common.constant.LoggerName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 各种配置的管理接口
+ */
+>>>>>>> rmq/master
 public abstract class ConfigManager {
     private static final Logger PLOG = LoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
 

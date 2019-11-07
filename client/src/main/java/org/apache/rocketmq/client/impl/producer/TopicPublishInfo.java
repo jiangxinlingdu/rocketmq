@@ -26,8 +26,15 @@ import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 public class TopicPublishInfo {
     private boolean orderTopic = false;
     private boolean haveTopicRouterInfo = false;
+<<<<<<< HEAD
     private List<MessageQueue> messageQueueList = new ArrayList<MessageQueue>();
     private volatile ThreadLocalIndex sendWhichQueue = new ThreadLocalIndex();
+=======
+    //topic中MessgeQueuee信息
+    private List<MessageQueue> messageQueueList = new ArrayList<MessageQueue>();
+    private volatile ThreadLocalIndex sendWhichQueue = new ThreadLocalIndex();
+    //路由信息
+>>>>>>> rmq/master
     private TopicRouteData topicRouteData;
 
     public boolean isOrderTopic() {
@@ -67,7 +74,11 @@ public class TopicPublishInfo {
     }
 
     public MessageQueue selectOneMessageQueue(final String lastBrokerName) {
+<<<<<<< HEAD
         if (lastBrokerName == null) {
+=======
+        if (lastBrokerName == null) {//第一次进入就是空的
+>>>>>>> rmq/master
             return selectOneMessageQueue();
         } else {
             int index = this.sendWhichQueue.getAndIncrement();

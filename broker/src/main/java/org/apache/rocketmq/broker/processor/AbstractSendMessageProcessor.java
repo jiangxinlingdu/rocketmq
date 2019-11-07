@@ -161,13 +161,22 @@ public abstract class AbstractSendMessageProcessor implements NettyRequestProces
 
     protected RemotingCommand msgCheck(final ChannelHandlerContext ctx,
         final SendMessageRequestHeader requestHeader, final RemotingCommand response) {
+<<<<<<< HEAD
         if (!PermName.isWriteable(this.brokerController.getBrokerConfig().getBrokerPermission())
+=======
+    	// 检查 broker 是否isWriteable
+    	if (!PermName.isWriteable(this.brokerController.getBrokerConfig().getBrokerPermission())
+>>>>>>> rmq/master
             && this.brokerController.getTopicConfigManager().isOrderTopic(requestHeader.getTopic())) {
             response.setCode(ResponseCode.NO_PERMISSION);
             response.setRemark("the broker[" + this.brokerController.getBrokerConfig().getBrokerIP1()
                 + "] sending message is forbidden");
             return response;
         }
+<<<<<<< HEAD
+=======
+    	//检查topic是否isTopicCanSendMessage
+>>>>>>> rmq/master
         if (!this.brokerController.getTopicConfigManager().isTopicCanSendMessage(requestHeader.getTopic())) {
             String errorMsg = "the topic[" + requestHeader.getTopic() + "] is conflict with system reserved words.";
             log.warn(errorMsg);
@@ -177,8 +186,13 @@ public abstract class AbstractSendMessageProcessor implements NettyRequestProces
         }
 
         TopicConfig topicConfig =
+<<<<<<< HEAD
             this.brokerController.getTopicConfigManager().selectTopicConfig(requestHeader.getTopic());
         if (null == topicConfig) {
+=======
+            this.brokerController.getTopicConfigManager().selectTopicConfig(requestHeader.getTopic());//获取topicConfig有就获取，没有需要创建
+        if (null == topicConfig) {//没有的情况
+>>>>>>> rmq/master
             int topicSysFlag = 0;
             if (requestHeader.isUnitMode()) {
                 if (requestHeader.getTopic().startsWith(MixAll.RETRY_GROUP_TOPIC_PREFIX)) {
@@ -189,6 +203,10 @@ public abstract class AbstractSendMessageProcessor implements NettyRequestProces
             }
 
             log.warn("the topic {} not exist, producer: {}", requestHeader.getTopic(), ctx.channel().remoteAddress());
+<<<<<<< HEAD
+=======
+            //topic不存在，创建topicConfig
+>>>>>>> rmq/master
             topicConfig = this.brokerController.getTopicConfigManager().createTopicInSendMessageMethod(//
                 requestHeader.getTopic(), //
                 requestHeader.getDefaultTopic(), //

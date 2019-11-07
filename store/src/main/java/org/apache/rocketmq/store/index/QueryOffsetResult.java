@@ -18,6 +18,12 @@ package org.apache.rocketmq.store.index;
 
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+/**
+ * 根据索引查询消息，返回结果
+ */
+>>>>>>> rmq/master
 public class QueryOffsetResult {
     private final List<Long> phyOffsets;
     private final long indexLastUpdateTimestamp;

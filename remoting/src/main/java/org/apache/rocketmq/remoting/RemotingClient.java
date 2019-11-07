@@ -25,6 +25,12 @@ import org.apache.rocketmq.remoting.exception.RemotingTooMuchRequestException;
 import org.apache.rocketmq.remoting.netty.NettyRequestProcessor;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 
+<<<<<<< HEAD
+=======
+/**
+ * 远程通信，Client接口
+ */
+>>>>>>> rmq/master
 public interface RemotingClient extends RemotingService {
 
     public void updateNameServerAddressList(final List<String> addrs);

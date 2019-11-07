@@ -16,6 +16,12 @@
  */
 package org.apache.rocketmq.remoting.exception;
 
+<<<<<<< HEAD
+=======
+/**
+ * Client连接Server失败，抛出此异常
+ */
+>>>>>>> rmq/master
 public class RemotingConnectException extends RemotingException {
     private static final long serialVersionUID = -5565366231695911316L;
 

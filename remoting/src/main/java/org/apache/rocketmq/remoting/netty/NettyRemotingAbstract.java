@@ -47,7 +47,13 @@ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.remoting.protocol.RemotingSysResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 
+=======
+/**
+ * Server与Client公用抽象类
+ */
+>>>>>>> rmq/master
 public abstract class NettyRemotingAbstract {
 
     /**
@@ -58,16 +64,28 @@ public abstract class NettyRemotingAbstract {
     /**
      * Semaphore to limit maximum number of on-going one-way requests, which protects system memory footprint.
      */
+<<<<<<< HEAD
+=======
+    // 信号量，Oneway情况会使用，防止本地Netty缓存请求过多
+>>>>>>> rmq/master
     protected final Semaphore semaphoreOneway;
 
     /**
      * Semaphore to limit maximum number of on-going asynchronous requests, which protects system memory footprint.
      */
+<<<<<<< HEAD
+=======
+    // 信号量，异步调用情况会使用，防止本地Netty缓存请求过多
+>>>>>>> rmq/master
     protected final Semaphore semaphoreAsync;
 
     /**
      * This map caches all on-going requests.
      */
+<<<<<<< HEAD
+=======
+    // 缓存所有对外请求
+>>>>>>> rmq/master
     protected final ConcurrentMap<Integer /* opaque */, ResponseFuture> responseTable =
         new ConcurrentHashMap<Integer, ResponseFuture>(256);
 
@@ -75,6 +93,10 @@ public abstract class NettyRemotingAbstract {
      * This container holds all processors per request code, aka, for each incoming request, we may look up the
      * responding processor in this map to handle the request.
      */
+<<<<<<< HEAD
+=======
+    // 注册的各个RPC处理器
+>>>>>>> rmq/master
     protected final HashMap<Integer/* request code */, Pair<NettyRequestProcessor, ExecutorService>> processorTable =
         new HashMap<Integer, Pair<NettyRequestProcessor, ExecutorService>>(64);
 
@@ -86,6 +108,10 @@ public abstract class NettyRemotingAbstract {
     /**
      * The default request processor to use in case there is no exact match in {@link #processorTable} per request code.
      */
+<<<<<<< HEAD
+=======
+    // 默认请求代码处理器
+>>>>>>> rmq/master
     protected Pair<NettyRequestProcessor, ExecutorService> defaultRequestProcessor;
 
     /**
@@ -127,6 +153,10 @@ public abstract class NettyRemotingAbstract {
      * @param msg incoming remoting command.
      * @throws Exception if there were any error while processing the incoming command.
      */
+<<<<<<< HEAD
+=======
+    //消息接收处理
+>>>>>>> rmq/master
     public void processMessageReceived(ChannelHandlerContext ctx, RemotingCommand msg) throws Exception {
         final RemotingCommand cmd = msg;
         if (cmd != null) {
@@ -160,6 +190,10 @@ public abstract class NettyRemotingAbstract {
                     try {
                         RPCHook rpcHook = NettyRemotingAbstract.this.getRPCHook();
                         if (rpcHook != null) {
+<<<<<<< HEAD
+=======
+                        	//处理前
+>>>>>>> rmq/master
                             rpcHook.doBeforeRequest(RemotingHelper.parseChannelRemoteAddr(ctx.channel()), cmd);
                         }
 
@@ -180,7 +214,11 @@ public abstract class NettyRemotingAbstract {
                                     PLOG.error(response.toString());
                                 }
                             } else {
+<<<<<<< HEAD
 
+=======
+                            	// 收到请求，但是没有返回应答，可能是processRequest中进行了应答，忽略这种情况
+>>>>>>> rmq/master
                             }
                         }
                     } catch (Throwable e) {
@@ -207,8 +245,15 @@ public abstract class NettyRemotingAbstract {
 
             try {
                 final RequestTask requestTask = new RequestTask(run, ctx.channel(), cmd);
+<<<<<<< HEAD
                 pair.getObject2().submit(requestTask);
             } catch (RejectedExecutionException e) {
+=======
+              // 这里需要做流控，要求线程池对应的队列必须是有大小限制的
+                pair.getObject2().submit(requestTask);
+            } catch (RejectedExecutionException e) {
+            	// 每个线程10s打印一次
+>>>>>>> rmq/master
                 if ((System.currentTimeMillis() % 10000) == 0) {
                     PLOG.warn(RemotingHelper.parseChannelRemoteAddr(ctx.channel()) //
                         + ", too many requests and system thread pool busy, RejectedExecutionException " //
@@ -337,6 +382,10 @@ public abstract class NettyRemotingAbstract {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //同步调用实现
+>>>>>>> rmq/master
     public RemotingCommand invokeSyncImpl(final Channel channel, final RemotingCommand request, final long timeoutMillis)
         throws InterruptedException, RemotingSendRequestException, RemotingTimeoutException {
         final int opaque = request.getOpaque();
@@ -378,13 +427,23 @@ public abstract class NettyRemotingAbstract {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //异步调用实现
+>>>>>>> rmq/master
     public void invokeAsyncImpl(final Channel channel, final RemotingCommand request, final long timeoutMillis,
         final InvokeCallback invokeCallback)
         throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException, RemotingSendRequestException {
         final int opaque = request.getOpaque();
+<<<<<<< HEAD
         boolean acquired = this.semaphoreAsync.tryAcquire(timeoutMillis, TimeUnit.MILLISECONDS);
         if (acquired) {
             final SemaphoreReleaseOnlyOnce once = new SemaphoreReleaseOnlyOnce(this.semaphoreAsync);
+=======
+        boolean acquired = this.semaphoreAsync.tryAcquire(timeoutMillis, TimeUnit.MILLISECONDS);//控制异步请求的个数以及超时
+        if (acquired) {
+            final SemaphoreReleaseOnlyOnce once = new SemaphoreReleaseOnlyOnce(this.semaphoreAsync);//使用布尔原子变量，信号量保证只释放一次
+>>>>>>> rmq/master
 
             final ResponseFuture responseFuture = new ResponseFuture(opaque, timeoutMillis, invokeCallback, once);
             this.responseTable.put(opaque, responseFuture);
@@ -433,6 +492,10 @@ public abstract class NettyRemotingAbstract {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //oneway调用实现
+>>>>>>> rmq/master
     public void invokeOnewayImpl(final Channel channel, final RemotingCommand request, final long timeoutMillis)
         throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException, RemotingSendRequestException {
         request.markOnewayRPC();
@@ -471,14 +534,27 @@ public abstract class NettyRemotingAbstract {
     }
 
     class NettyEventExecutor extends ServiceThread {
+<<<<<<< HEAD
+=======
+    	// //使用LinkedBlockingQueue存NettyEvent
+>>>>>>> rmq/master
         private final LinkedBlockingQueue<NettyEvent> eventQueue = new LinkedBlockingQueue<NettyEvent>();
         private final int maxSize = 10000;
 
         public void putNettyEvent(final NettyEvent event) {
+<<<<<<< HEAD
             if (this.eventQueue.size() <= maxSize) {
                 this.eventQueue.add(event);
             } else {
                 PLOG.warn("event queue size[{}] enough, so drop this event {}", this.eventQueue.size(), event.toString());
+=======
+        	//这里的size没有坑 有些size并不是常量时间内返回的，主要是分桶策略减少集合的线程竞争才有这里问题。
+            if (this.eventQueue.size() <= maxSize) { 
+                this.eventQueue.add(event);
+            } else {
+                PLOG.warn("event queue size[{}] enough, so drop this event {}", this.eventQueue.size(), event.toString());
+                //反正源码在此，可以自己考虑一些处理
+>>>>>>> rmq/master
             }
         }
 

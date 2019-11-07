@@ -16,6 +16,10 @@
  */
 package org.apache.rocketmq.example.quickstart;
 
+<<<<<<< HEAD
+=======
+import java.util.UUID;
+>>>>>>> rmq/master
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -25,14 +29,27 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 /**
  * This class demonstrates how to send messages to brokers using provided {@link DefaultMQProducer}.
  */
+<<<<<<< HEAD
+=======
+/**
+ * Producer，发送消息
+ * 
+ */
+>>>>>>> rmq/master
 public class Producer {
     public static void main(String[] args) throws MQClientException, InterruptedException {
 
         /*
          * Instantiate with a producer group name.
          */
+<<<<<<< HEAD
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
 
+=======
+        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");//DefaultMQProducer里面的注释很全了
+       //指定NameServer地址
+        producer.setNamesrvAddr("127.0.0.1:9876");
+>>>>>>> rmq/master
         /*
          * Specify name server addresses.
          * <p/>
@@ -48,19 +65,41 @@ public class Producer {
         /*
          * Launch the instance.
          */
+<<<<<<< HEAD
         producer.start();
 
         for (int i = 0; i < 1000; i++) {
+=======
+        /**
+         * Producer对象在使用之前必须要调用start初始化，初始化一次即可
+         * 注意：切记不可以在每次发送消息时，都调用start方法
+         */
+        producer.start();
+
+        producer.setSendLatencyFaultEnable(true);
+
+        for (int i = 0; i < 5; i++) {
+>>>>>>> rmq/master
             try {
 
                 /*
                  * Create a message instance, specifying topic, tag and message body.
                  */
                 Message msg = new Message("TopicTest" /* Topic */,
+<<<<<<< HEAD
                     "TagA" /* Tag */,
                     ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
                 );
 
+=======
+                    "TagA" /* Tag */,UUID.randomUUID().toString(),
+                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+                );
+
+                //添加定时发送
+                msg.setDelayTimeLevel(3);
+
+>>>>>>> rmq/master
                 /*
                  * Call send message to deliver message to one of brokers.
                  */

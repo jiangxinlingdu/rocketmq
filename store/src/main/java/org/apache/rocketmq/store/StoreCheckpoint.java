@@ -27,6 +27,12 @@ import org.apache.rocketmq.common.constant.LoggerName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 记录存储模型最终一致的时间点
+ */
+>>>>>>> rmq/master
 public class StoreCheckpoint {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
     private final RandomAccessFile randomAccessFile;
@@ -105,6 +111,10 @@ public class StoreCheckpoint {
     public long getMinTimestamp() {
         long min = Math.min(this.physicMsgTimestamp, this.logicsMsgTimestamp);
 
+<<<<<<< HEAD
+=======
+        // 向前倒退3s，防止因为时间精度问题导致丢数据
+>>>>>>> rmq/master
         min -= 1000 * 3;
         if (min < 0)
             min = 0;

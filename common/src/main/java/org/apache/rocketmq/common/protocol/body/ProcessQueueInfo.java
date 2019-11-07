@@ -20,16 +20,38 @@ package org.apache.rocketmq.common.protocol.body;
 import org.apache.rocketmq.common.UtilAll;
 
 public class ProcessQueueInfo {
+<<<<<<< HEAD
     private long commitOffset;
 
+=======
+	 /**
+     * 消费到哪里，提交的offset
+     */
+    private long commitOffset;
+    /**
+     * 缓存的消息Offset信息
+     */
+>>>>>>> rmq/master
     private long cachedMsgMinOffset;
     private long cachedMsgMaxOffset;
     private int cachedMsgCount;
 
+<<<<<<< HEAD
+=======
+    /**
+     * 正在事务中的消息
+     */
+>>>>>>> rmq/master
     private long transactionMsgMinOffset;
     private long transactionMsgMaxOffset;
     private int transactionMsgCount;
 
+<<<<<<< HEAD
+=======
+    /**
+     * 顺序消息的状态信息
+     */
+>>>>>>> rmq/master
     private boolean locked;
     private long tryUnlockTimes;
     private long lastLockTimestamp;

@@ -29,6 +29,14 @@ import org.apache.rocketmq.namesrv.NamesrvController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 
+ * KV配置管理
+ *
+ */
+>>>>>>> rmq/master
 public class KVConfigManager {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
 

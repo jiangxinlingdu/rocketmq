@@ -41,6 +41,10 @@ public class RebalanceService extends ServiceThread {
 
         while (!this.isStopped()) {
             this.waitForRunning(waitInterval);
+<<<<<<< HEAD
+=======
+            //定时负载均衡
+>>>>>>> rmq/master
             this.mqClientFactory.doRebalance();
         }
 

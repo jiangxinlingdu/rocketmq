@@ -21,6 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
+<<<<<<< HEAD
+=======
+/**
+ * 查看客户端消费组的消费情况。
+ */
+>>>>>>> rmq/master
 public class QueryConsumeTimeSpanBody extends RemotingSerializable {
     List<QueueTimeSpan> consumeTimeSpanSet = new ArrayList<QueueTimeSpan>();
 

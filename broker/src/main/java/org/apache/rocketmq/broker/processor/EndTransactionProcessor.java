@@ -37,6 +37,12 @@ import org.apache.rocketmq.store.PutMessageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * Commit或Rollback事务
+ */
+>>>>>>> rmq/master
 public class EndTransactionProcessor implements NettyRequestProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggerName.TRANSACTION_LOGGER_NAME);
     private final BrokerController brokerController;

@@ -48,6 +48,12 @@ import org.apache.rocketmq.common.protocol.body.ConsumeMessageDirectlyResult;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.slf4j.Logger;
 
+<<<<<<< HEAD
+=======
+/**
+ * 并发消费消息服务
+ */
+>>>>>>> rmq/master
 public class ConsumeMessageConcurrentlyService implements ConsumeMessageService {
     private static final Logger log = ClientLogger.getLog();
     private final DefaultMQPushConsumerImpl defaultMQPushConsumerImpl;
@@ -86,10 +92,18 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
 
             @Override
             public void run() {
+<<<<<<< HEAD
                 cleanExpireMsg();
             }
 
         }, this.defaultMQPushConsumer.getConsumeTimeout(), this.defaultMQPushConsumer.getConsumeTimeout(), TimeUnit.MINUTES);
+=======
+                cleanExpireMsg();//清理过期消息
+            }
+
+        }, this.defaultMQPushConsumer.getConsumeTimeout(), this.defaultMQPushConsumer.getConsumeTimeout(), TimeUnit.MINUTES);
+        //定时计划15分钟周期   默认超时时间设置的是15分钟 DefaultMQPushConsumer，consumeTimeout=15
+>>>>>>> rmq/master
     }
 
     public void shutdown() {
@@ -206,6 +220,10 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
         final MessageQueue messageQueue, //
         final boolean dispatchToConsume) {
         final int consumeBatchSize = this.defaultMQPushConsumer.getConsumeMessageBatchMaxSize();
+<<<<<<< HEAD
+=======
+        //类似分页，一页consumeBatchSize，如果大于一页就一页一页取。
+>>>>>>> rmq/master
         if (msgs.size() <= consumeBatchSize) {
             ConsumeRequest consumeRequest = new ConsumeRequest(msgs, processQueue, messageQueue);
             try {
@@ -248,6 +266,12 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 清理过期消息
+     */
+>>>>>>> rmq/master
     private void cleanExpireMsg() {
         Iterator<Map.Entry<MessageQueue, ProcessQueue>> it =
             this.defaultMQPushConsumerImpl.getRebalanceImpl().getProcessQueueTable().entrySet().iterator();
@@ -258,6 +282,10 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
         }
     }
 
+<<<<<<< HEAD
+=======
+    //处理消费的结果  根据返回状态 看看是成功 还是稍后在试
+>>>>>>> rmq/master
     public void processConsumeResult(//
         final ConsumeConcurrentlyStatus status, //
         final ConsumeConcurrentlyContext context, //
@@ -279,6 +307,10 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
                 this.getConsumerStatsManager().incConsumeFailedTPS(consumerGroup, consumeRequest.getMessageQueue().getTopic(), failed);
                 break;
             case RECONSUME_LATER:
+<<<<<<< HEAD
+=======
+                //需要稍微重试的
+>>>>>>> rmq/master
                 ackIndex = -1;
                 this.getConsumerStatsManager().incConsumeFailedTPS(consumerGroup, consumeRequest.getMessageQueue().getTopic(),
                     consumeRequest.getMsgs().size());
@@ -307,7 +339,11 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
 
                 if (!msgBackFailed.isEmpty()) {
                     consumeRequest.getMsgs().removeAll(msgBackFailed);
+<<<<<<< HEAD
 
+=======
+                    //请求重试消费
+>>>>>>> rmq/master
                     this.submitConsumeRequestLater(msgBackFailed, consumeRequest.getProcessQueue(), consumeRequest.getMessageQueue());
                 }
                 break;
@@ -315,6 +351,10 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
                 break;
         }
 
+<<<<<<< HEAD
+=======
+        //会操作msgTreeMap，如果重试的情况在上面consumeRequest.getMsgs()已经被清空了
+>>>>>>> rmq/master
         long offset = consumeRequest.getProcessQueue().removeMessage(consumeRequest.getMsgs());
         if (offset >= 0 && !consumeRequest.getProcessQueue().isDropped()) {
             this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), offset, true);
@@ -416,6 +456,11 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
                         MessageAccessor.setConsumeStartTimeStamp(msg, String.valueOf(System.currentTimeMillis()));
                     }
                 }
+<<<<<<< HEAD
+=======
+
+                //开始调用自己些的消费监听进行消费
+>>>>>>> rmq/master
                 status = listener.consumeMessage(Collections.unmodifiableList(msgs), context);
             } catch (Throwable e) {
                 log.warn("consumeMessage exception: {} Group: {} Msgs: {} MQ: {}",

@@ -47,6 +47,12 @@ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * Broker对外调用的API封装
+ */
+>>>>>>> rmq/master
 public class BrokerOuterAPI {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private final RemotingClient remotingClient;
@@ -129,6 +135,10 @@ public class BrokerOuterAPI {
         return registerBrokerResult;
     }
 
+<<<<<<< HEAD
+=======
+    //向 NameServer注册 Broker
+>>>>>>> rmq/master
     private RegisterBrokerResult registerBroker(
         final String namesrvAddr,
         final String clusterName,

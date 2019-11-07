@@ -49,6 +49,12 @@ import org.apache.rocketmq.common.sysflag.PullSysFlag;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.slf4j.Logger;
 
+<<<<<<< HEAD
+=======
+/**
+ * 拉取API封装
+ */
+>>>>>>> rmq/master
 public class PullAPIWrapper {
     private final Logger log = ClientLogger.getLog();
     private final MQClientInstance mQClientFactory;
@@ -67,6 +73,10 @@ public class PullAPIWrapper {
         this.unitMode = unitMode;
     }
 
+<<<<<<< HEAD
+=======
+    //处理拉取的结果
+>>>>>>> rmq/master
     public PullResult processPullResult(final MessageQueue mq, final PullResult pullResult,
         final SubscriptionData subscriptionData) {
         PullResultExt pullResultExt = (PullResultExt) pullResult;
@@ -95,6 +105,10 @@ public class PullAPIWrapper {
                 this.executeHook(filterMessageContext);
             }
 
+<<<<<<< HEAD
+=======
+            //扩展信息 设置最小 最大offset
+>>>>>>> rmq/master
             for (MessageExt msg : msgListFilterAgain) {
                 MessageAccessor.putProperty(msg, MessageConst.PROPERTY_MIN_OFFSET,
                     Long.toString(pullResult.getMinOffset()));
@@ -135,6 +149,10 @@ public class PullAPIWrapper {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //拉数据核心
+>>>>>>> rmq/master
     public PullResult pullKernelImpl(
         final MessageQueue mq,
         final String subExpression,
@@ -174,6 +192,10 @@ public class PullAPIWrapper {
                 sysFlagInner = PullSysFlag.clearCommitOffsetFlag(sysFlagInner);
             }
 
+<<<<<<< HEAD
+=======
+            //构建PullMessageRequestHeader头信息
+>>>>>>> rmq/master
             PullMessageRequestHeader requestHeader = new PullMessageRequestHeader();
             requestHeader.setConsumerGroup(this.consumerGroup);
             requestHeader.setTopic(mq.getTopic());
@@ -192,6 +214,10 @@ public class PullAPIWrapper {
                 brokerAddr = computPullFromWhichFilterServer(mq.getTopic(), brokerAddr);
             }
 
+<<<<<<< HEAD
+=======
+            // 请求拉取
+>>>>>>> rmq/master
             PullResult pullResult = this.mQClientFactory.getMQClientAPIImpl().pullMessage(
                 brokerAddr,
                 requestHeader,

@@ -16,6 +16,12 @@
  */
 package org.apache.rocketmq.common.sysflag;
 
+<<<<<<< HEAD
+=======
+/**
+ * Pull系统标记
+ */
+>>>>>>> rmq/master
 public class PullSysFlag {
     private final static int FLAG_COMMIT_OFFSET = 0x1 << 0;
     private final static int FLAG_SUSPEND = 0x1 << 1;

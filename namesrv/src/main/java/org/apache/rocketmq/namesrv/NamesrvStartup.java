@@ -39,6 +39,14 @@ import org.apache.rocketmq.srvutil.ShutdownHookThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 
+ * Name server 启动入口
+ *
+ */
+>>>>>>> rmq/master
 public class NamesrvStartup {
     public static Properties properties = null;
     public static CommandLine commandLine = null;
@@ -47,13 +55,34 @@ public class NamesrvStartup {
         main0(args);
     }
 
+<<<<<<< HEAD
     public static NamesrvController main0(String[] args) {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
 
+=======
+    /**
+     * 
+     * 这里的这个与后面的BrokerStartup有些很像 都是
+     * 设置版本
+     * socket缓冲区等等
+     * 
+     * 
+     */
+    public static NamesrvController main0(String[] args) {
+    	
+    	//设置版本
+        System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
+
+        // Socket发送缓冲区大小
+>>>>>>> rmq/master
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
             NettySystemConfig.socketSndbufSize = 4096;
         }
 
+<<<<<<< HEAD
+=======
+        // Socket接收缓冲区大小
+>>>>>>> rmq/master
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_RCVBUF_SIZE)) {
             NettySystemConfig.socketRcvbufSize = 4096;
         }
@@ -61,6 +90,10 @@ public class NamesrvStartup {
         try {
             //PackageConflictDetect.detectFastjson();
 
+<<<<<<< HEAD
+=======
+        	// 解析命令行
+>>>>>>> rmq/master
             Options options = ServerUtil.buildCommandlineOptions(new Options());
             commandLine = ServerUtil.parseCmdLine("mqnamesrv", args, buildCommandlineOptions(options), new PosixParser());
             if (null == commandLine) {
@@ -68,9 +101,22 @@ public class NamesrvStartup {
                 return null;
             }
 
+<<<<<<< HEAD
             final NamesrvConfig namesrvConfig = new NamesrvConfig();
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             nettyServerConfig.setListenPort(9876);
+=======
+            // 初始化配置文件
+            final NamesrvConfig namesrvConfig = new NamesrvConfig();
+            
+            //如果我们直接运行的话会报一个错误
+            //Please set the ROCKETMQ_HOME variable in your environment to match the location of the RocketMQ installation
+           namesrvConfig.setRocketmqHome("D:\\eclipse-workspace\\rocketmq-rocketmq-all-4.1.0-incubating\\rocketmq-rocketmq-all-4.1.0-incubating\\distribution");
+            final NettyServerConfig nettyServerConfig = new NettyServerConfig();
+            nettyServerConfig.setListenPort(9876);
+            
+            // 指定配置文件
+>>>>>>> rmq/master
             if (commandLine.hasOption('c')) {
                 String file = commandLine.getOptionValue('c');
                 if (file != null) {
@@ -87,6 +133,10 @@ public class NamesrvStartup {
                 }
             }
 
+<<<<<<< HEAD
+=======
+            // 打印默认配置
+>>>>>>> rmq/master
             if (commandLine.hasOption('p')) {
                 MixAll.printObjectProperties(null, namesrvConfig);
                 MixAll.printObjectProperties(null, nettyServerConfig);
@@ -110,17 +160,30 @@ public class NamesrvStartup {
             MixAll.printObjectProperties(log, namesrvConfig);
             MixAll.printObjectProperties(log, nettyServerConfig);
 
+<<<<<<< HEAD
             final NamesrvController controller = new NamesrvController(namesrvConfig, nettyServerConfig);
 
             // remember all configs to prevent discard
             controller.getConfiguration().registerConfig(properties);
 
+=======
+            // 服务控制对象
+            final NamesrvController controller = new NamesrvController(namesrvConfig, nettyServerConfig); 
+
+            // remember all configs to prevent discard
+            controller.getConfiguration().registerConfig(properties);
+            //初始化服务控制对象
+>>>>>>> rmq/master
             boolean initResult = controller.initialize();
             if (!initResult) {
                 controller.shutdown();
                 System.exit(-3);
             }
 
+<<<<<<< HEAD
+=======
+            //注册shutdown钩子
+>>>>>>> rmq/master
             Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
@@ -129,13 +192,21 @@ public class NamesrvStartup {
                 }
             }));
 
+<<<<<<< HEAD
+=======
+            // 启动服务
+>>>>>>> rmq/master
             controller.start();
 
             String tip = "The Name Server boot success. serializeType=" + RemotingCommand.getSerializeTypeConfigInThisServer();
             log.info(tip);
             System.out.printf(tip + "%n");
 
+<<<<<<< HEAD
             return controller;
+=======
+            return controller;  //不return又咋滴？ 调用处main0(args);是这样的，没有拿返回值做事情
+>>>>>>> rmq/master
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -144,6 +215,10 @@ public class NamesrvStartup {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+    //个人觉得这里用private更合适
+>>>>>>> rmq/master
     public static Options buildCommandlineOptions(final Options options) {
         Option opt = new Option("c", "configFile", true, "Name server config properties file");
         opt.setRequired(false);

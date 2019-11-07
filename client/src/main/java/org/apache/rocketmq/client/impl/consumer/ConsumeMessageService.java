@@ -21,6 +21,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.body.ConsumeMessageDirectlyResult;
 
+<<<<<<< HEAD
 public interface ConsumeMessageService {
     void start();
 
@@ -33,6 +34,23 @@ public interface ConsumeMessageService {
     void decCorePoolSize();
 
     int getCorePoolSize();
+=======
+/**
+ * 消费消息服务接口，定义标准
+ */
+public interface ConsumeMessageService {
+    void start();//启动
+
+    void shutdown();//关闭
+
+    void updateCorePoolSize(int corePoolSize);//更新核心线程池
+
+    void incCorePoolSize();//增加核心线程池
+
+    void decCorePoolSize();//减少核心线程池
+
+    int getCorePoolSize();//得到核心线程池
+>>>>>>> rmq/master
 
     ConsumeMessageDirectlyResult consumeMessageDirectly(final MessageExt msg, final String brokerName);
 

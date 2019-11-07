@@ -29,7 +29,14 @@ import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 import org.apache.rocketmq.tools.command.topic.DeleteTopicSubCommand;
 
+<<<<<<< HEAD
 public class DeleteSubscriptionGroupCommand implements SubCommand {
+=======
+/**
+ * 删除订阅组配置命令
+ */
+ public class DeleteSubscriptionGroupCommand implements SubCommand {
+>>>>>>> rmq/master
     @Override
     public String commandName() {
         return "deleteSubGroup";
@@ -86,6 +93,10 @@ public class DeleteSubscriptionGroupCommand implements SubCommand {
                         groupName, master, clusterName);
                 }
 
+<<<<<<< HEAD
+=======
+                // 删除%RETRY%打头的Topic
+>>>>>>> rmq/master
                 try {
                     DeleteTopicSubCommand.deleteTopic(adminExt, clusterName, MixAll.RETRY_GROUP_TOPIC_PREFIX
                         + groupName);

@@ -16,6 +16,12 @@
  */
 package org.apache.rocketmq.remoting.exception;
 
+<<<<<<< HEAD
+=======
+/**
+ * 通信层异常父类
+ */
+>>>>>>> rmq/master
 public class RemotingException extends Exception {
     private static final long serialVersionUID = -5690687334570505110L;
 

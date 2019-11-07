@@ -38,6 +38,10 @@ import org.slf4j.Logger;
 
 /**
  * Remote storage implementation
+<<<<<<< HEAD
+=======
+ * 消费进度。
+>>>>>>> rmq/master
  */
 public class RemoteBrokerOffsetStore implements OffsetStore {
     private final static Logger log = ClientLogger.getLog();
@@ -228,6 +232,10 @@ public class RemoteBrokerOffsetStore implements OffsetStore {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //根据broker name获取broker地址，之后根据topic，group name和queue id获取消费的位置
+>>>>>>> rmq/master
     private long fetchConsumeOffsetFromBroker(MessageQueue mq) throws RemotingException, MQBrokerException,
         InterruptedException, MQClientException {
         FindBrokerResult findBrokerResult = this.mQClientFactory.findBrokerAddressInAdmin(mq.getBrokerName());

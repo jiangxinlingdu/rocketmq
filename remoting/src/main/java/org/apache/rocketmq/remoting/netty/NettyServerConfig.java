@@ -17,9 +17,13 @@
 package org.apache.rocketmq.remoting.netty;
 
 /**
+<<<<<<< HEAD
 
  *
  *
+=======
+ * Netty服务端配置
+>>>>>>> rmq/master
  */
 public class NettyServerConfig implements Cloneable {
     private int listenPort = 8888;

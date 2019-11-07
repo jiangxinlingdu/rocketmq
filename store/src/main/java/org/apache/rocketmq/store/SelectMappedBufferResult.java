@@ -18,6 +18,7 @@ package org.apache.rocketmq.store;
 
 import java.nio.ByteBuffer;
 
+<<<<<<< HEAD
 public class SelectMappedBufferResult {
 
     private final long startOffset;
@@ -26,6 +27,23 @@ public class SelectMappedBufferResult {
 
     private int size;
 
+=======
+/**
+ * 查询Pagecache返回结果
+ */
+public class SelectMappedBufferResult {
+
+	// 从队列中哪个绝对Offset开始
+    private final long startOffset;
+
+    // position从0开始
+    private final ByteBuffer byteBuffer;
+
+    // 有效数据大小
+    private int size;
+
+    // 用来释放内存
+>>>>>>> rmq/master
     private MappedFile mappedFile;
 
     public SelectMappedBufferResult(long startOffset, ByteBuffer byteBuffer, int size, MappedFile mappedFile) {
@@ -59,6 +77,12 @@ public class SelectMappedBufferResult {
 //        }
 //    }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 此方法只能被调用一次，重复调用无效
+     */
+>>>>>>> rmq/master
     public synchronized void release() {
         if (this.mappedFile != null) {
             this.mappedFile.release();

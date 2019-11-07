@@ -93,10 +93,17 @@ public class StatsAllSubCommand implements SubCommand {
 
                 if (!activeTopic || (inMsgCntToday > 0) ||
                     (outMsgCntToday > 0)) {
+<<<<<<< HEAD
 
                     System.out.printf("%-32s  %-32s %12d %11.2f %11.2f %14d %14d%n",
                         UtilAll.frontStringAtLeast(topic, 32),
                         UtilAll.frontStringAtLeast(group, 32),
+=======
+                    //第二个参数默认是32，有时候消费者长度过长显示不去，修改为52
+                    System.out.printf("%-32s  %-52s %12d %11.2f %11.2f %14d %14d%n",
+                        UtilAll.frontStringAtLeast(topic, 32),
+                        UtilAll.frontStringAtLeast(group, 52), //有时候消费者长度过长显示不去，修改为52
+>>>>>>> rmq/master
                         accumulate,
                         inTPS,
                         outTPS,
@@ -107,9 +114,15 @@ public class StatsAllSubCommand implements SubCommand {
             }
         } else {
             if (!activeTopic || (inMsgCntToday > 0)) {
+<<<<<<< HEAD
 
                 System.out.printf("%-32s  %-32s %12d %11.2f %11s %14d %14s%n",
                     UtilAll.frontStringAtLeast(topic, 32),
+=======
+                //第二个参数默认是32，有时候消费者长度过长显示不去，修改为52
+                System.out.printf("%-32s  %-52s %12d %11.2f %11s %14d %14s%n",
+                    UtilAll.frontStringAtLeast(topic, 52),
+>>>>>>> rmq/master
                     "",
                     0,
                     inTPS,
@@ -171,7 +184,12 @@ public class StatsAllSubCommand implements SubCommand {
 
             TopicList topicList = defaultMQAdminExt.fetchAllTopicList();
 
+<<<<<<< HEAD
             System.out.printf("%-32s  %-32s %12s %11s %11s %14s %14s%n",
+=======
+            //第二个参数默认是32，有时候消费者长度过长显示不去，修改为52
+            System.out.printf("%-32s  %-52s %12s %11s %11s %14s %14s%n",
+>>>>>>> rmq/master
                 "#Topic",
                 "#Consumer Group",
                 "#Accumulation",

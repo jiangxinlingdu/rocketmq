@@ -166,6 +166,10 @@ public class MQAdminImpl {
         throw new MQClientException("Unknow why, Can not find Message Queue for this topic, " + topic, null);
     }
 
+<<<<<<< HEAD
+=======
+    //搜索offset
+>>>>>>> rmq/master
     public long searchOffset(MessageQueue mq, long timestamp) throws MQClientException {
         String brokerAddr = this.mQClientFactory.findBrokerAddressInPublish(mq.getBrokerName());
         if (null == brokerAddr) {
@@ -252,11 +256,20 @@ public class MQAdminImpl {
             messageId.getOffset(), timeoutMillis);
     }
 
+<<<<<<< HEAD
+=======
+    //根据key进行查询消息
+>>>>>>> rmq/master
     public QueryResult queryMessage(String topic, String key, int maxNum, long begin, long end) throws MQClientException,
         InterruptedException {
         return queryMessage(topic, key, maxNum, begin, end, false);
     }
 
+<<<<<<< HEAD
+=======
+    //{"messageQueue":{"brokerName":"broker-b","queueId":0,"topic":"alz"},"msgId":"AC120520226818B4AAC2988A691D0000","offsetMsgId":"AC13031500002A9F0000000177C38845","queueOffset":1,"regionId":"DefaultRegion","sendStatus":"SEND_OK","traceOn":true}
+    //根据UniqKey进行查询  就是发送消息成功之后的msgId
+>>>>>>> rmq/master
     public MessageExt queryMessageByUniqKey(String topic, String uniqKey) throws InterruptedException, MQClientException {
 
         QueryResult qr = this.queryMessage(topic, uniqKey, 32,
@@ -268,6 +281,13 @@ public class MQAdminImpl {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 通过断点查看rocketmq-console项目查询MessageId我们可以发现，只有offsetMsgId才是真正的这种规则的key，而msgId其实仅仅知识生成的UNIQ_KEY
+     * 这也是为什么用MessageDecoder.decodeMessageId端口号超限问题的原因
+     */
+>>>>>>> rmq/master
     protected QueryResult queryMessage(String topic, String key, int maxNum, long begin, long end, boolean isUniqKey) throws MQClientException,
         InterruptedException {
         TopicRouteData topicRouteData = this.mQClientFactory.getAnExistTopicRouteData(topic);
@@ -292,6 +312,10 @@ public class MQAdminImpl {
 
                 for (String addr : brokerAddrs) {
                     try {
+<<<<<<< HEAD
+=======
+                        //构建查询请求头信息
+>>>>>>> rmq/master
                         QueryMessageRequestHeader requestHeader = new QueryMessageRequestHeader();
                         requestHeader.setTopic(topic);
                         requestHeader.setKey(key);

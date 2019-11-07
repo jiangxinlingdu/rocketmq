@@ -22,6 +22,7 @@ import org.apache.rocketmq.common.constant.LoggerName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 public abstract class ServiceThread implements Runnable {
     private static final Logger STLOG = LoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
     private static final long JOIN_TIME = 90 * 1000;
@@ -29,6 +30,23 @@ public abstract class ServiceThread implements Runnable {
     protected final Thread thread;
     protected final CountDownLatch2 waitPoint = new CountDownLatch2(1);
     protected volatile AtomicBoolean hasNotified = new AtomicBoolean(false);
+=======
+/**
+ * 后台服务线程基类
+ */
+public abstract class ServiceThread implements Runnable {
+    private static final Logger STLOG = LoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
+ 
+    // 线程回收时间，默认90S
+    private static final long JOIN_TIME = 90 * 1000;
+
+    // 执行线程
+    protected final Thread thread;
+    protected final CountDownLatch2 waitPoint = new CountDownLatch2(1);
+    // 是否已经被Notify过
+    protected volatile AtomicBoolean hasNotified = new AtomicBoolean(false);
+    // 线程是否已经停止
+>>>>>>> rmq/master
     protected volatile boolean stopped = false;
 
     public ServiceThread() {
@@ -97,13 +115,21 @@ public abstract class ServiceThread implements Runnable {
     }
 
     public void wakeup() {
+<<<<<<< HEAD
         if (hasNotified.compareAndSet(false, true)) {
+=======
+        if (hasNotified.compareAndSet(false, true)) {  //CAS操作
+>>>>>>> rmq/master
             waitPoint.countDown(); // notify
         }
     }
 
     protected void waitForRunning(long interval) {
+<<<<<<< HEAD
         if (hasNotified.compareAndSet(true, false)) {
+=======
+        if (hasNotified.compareAndSet(true, false)) {  //CAS操作
+>>>>>>> rmq/master
             this.onWaitEnd();
             return;
         }
@@ -124,6 +150,10 @@ public abstract class ServiceThread implements Runnable {
     protected void onWaitEnd() {
     }
 
+<<<<<<< HEAD
+=======
+    //这里的做法很优雅，类似jdk线程中的中断标记做法类似 只是一个标记 最后还是需要调用处进行判断是否下一步
+>>>>>>> rmq/master
     public boolean isStopped() {
         return stopped;
     }

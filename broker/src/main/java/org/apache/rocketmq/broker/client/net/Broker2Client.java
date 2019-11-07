@@ -53,6 +53,12 @@ import org.apache.rocketmq.store.SelectMappedBufferResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * Broker主动调用客户端接口
+ */
+>>>>>>> rmq/master
 public class Broker2Client {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private final BrokerController brokerController;
@@ -60,7 +66,13 @@ public class Broker2Client {
     public Broker2Client(BrokerController brokerController) {
         this.brokerController = brokerController;
     }
+<<<<<<< HEAD
 
+=======
+    /**
+     * Broker主动回查Producer事务状态，Oneway
+     */
+>>>>>>> rmq/master
     public void checkProducerTransactionState(
         final Channel channel,
         final CheckTransactionStateRequestHeader requestHeader,
@@ -94,6 +106,12 @@ public class Broker2Client {
         return this.brokerController.getRemotingServer().invokeSync(channel, request, 10000);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Broker主动通知Consumer，Id列表发生变化，Oneway
+     */
+>>>>>>> rmq/master
     public void notifyConsumerIdsChanged(
         final Channel channel,
         final String consumerGroup) {
@@ -114,6 +132,12 @@ public class Broker2Client {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Broker 主动通知 Consumer，offset 需要进行重置列表发生变化
+     */
+>>>>>>> rmq/master
     public RemotingCommand resetOffset(String topic, String group, long timeStamp, boolean isForce) {
         return resetOffset(topic, group, timeStamp, isForce, false);
     }
@@ -151,7 +175,11 @@ public class Broker2Client {
 
                 timeStampOffset = this.brokerController.getMessageStore().getMaxOffsetInQueue(topic, i);
             } else {
+<<<<<<< HEAD
                 timeStampOffset = this.brokerController.getMessageStore().getOffsetInQueueByTime(topic, i, timeStamp);
+=======
+                timeStampOffset = this.brokerController.getMessageStore().getOffsetInQueueByTime(topic, i, timeStamp);////根据时间找offset
+>>>>>>> rmq/master
             }
 
             if (timeStampOffset < 0) {
@@ -188,6 +216,10 @@ public class Broker2Client {
         ConsumerGroupInfo consumerGroupInfo =
             this.brokerController.getConsumerManager().getConsumerGroupInfo(group);
 
+<<<<<<< HEAD
+=======
+     // Consumer在线
+>>>>>>> rmq/master
         if (consumerGroupInfo != null && !consumerGroupInfo.getAllChannel().isEmpty()) {
             ConcurrentMap<Channel, ClientChannelInfo> channelInfoTable =
                 consumerGroupInfo.getChannelInfoTable();

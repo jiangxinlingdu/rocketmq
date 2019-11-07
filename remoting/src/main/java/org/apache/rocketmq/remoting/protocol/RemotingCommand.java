@@ -16,7 +16,10 @@
  */
 package org.apache.rocketmq.remoting.protocol;
 
+<<<<<<< HEAD
 import com.alibaba.fastjson.annotation.JSONField;
+=======
+>>>>>>> rmq/master
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -24,6 +27,10 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+<<<<<<< HEAD
+=======
+
+>>>>>>> rmq/master
 import org.apache.rocketmq.remoting.CommandCustomHeader;
 import org.apache.rocketmq.remoting.annotation.CFNotNull;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
@@ -31,13 +38,30 @@ import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * Remoting模块中，服务器与客户端通过传递RemotingCommand来交互
+ */
+>>>>>>> rmq/master
 public class RemotingCommand {
     public static final String SERIALIZE_TYPE_PROPERTY = "rocketmq.serialize.type";
     public static final String SERIALIZE_TYPE_ENV = "ROCKETMQ_SERIALIZE_TYPE";
     public static final String REMOTING_VERSION_KEY = "rocketmq.remoting.version";
     private static final Logger log = LoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
+<<<<<<< HEAD
     private static final int RPC_TYPE = 0; // 0, REQUEST_COMMAND
     private static final int RPC_ONEWAY = 1; // 0, RPC
+=======
+   
+    private static final int RPC_TYPE = 0; // 0, REQUEST_COMMAND
+    // 1, RESPONSE_COMMAND
+    
+    private static final int RPC_ONEWAY = 1; // Oneway bit
+
+>>>>>>> rmq/master
     private static final Map<Class<? extends CommandCustomHeader>, Field[]> CLASS_HASH_MAP =
         new HashMap<Class<? extends CommandCustomHeader>, Field[]>();
     private static final Map<Class, String> CANONICAL_NAME_CACHE = new HashMap<Class, String>();
@@ -68,7 +92,13 @@ public class RemotingCommand {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+    /**
+     * Header 部分
+     */
+>>>>>>> rmq/master
     private int code;
     private LanguageCode language = LanguageCode.JAVA;
     private int version = 0;
@@ -79,12 +109,25 @@ public class RemotingCommand {
     private transient CommandCustomHeader customHeader;
 
     private SerializeType serializeTypeCurrentRPC = serializeTypeConfigInThisServer;
+<<<<<<< HEAD
 
+=======
+    /**
+     * Body 部分
+     */
+>>>>>>> rmq/master
     private transient byte[] body;
 
     protected RemotingCommand() {
     }
+<<<<<<< HEAD
 
+=======
+    
+    /**
+     * 只有通信层内部会调用，业务不会调用
+     */
+>>>>>>> rmq/master
     public static RemotingCommand createRequestCommand(int code, CommandCustomHeader customHeader) {
         RemotingCommand cmd = new RemotingCommand();
         cmd.setCode(code);
@@ -110,6 +153,10 @@ public class RemotingCommand {
         return createResponseCommand(RemotingSysResponseCode.SYSTEM_ERROR, "not set any response code", classHeader);
     }
 
+<<<<<<< HEAD
+=======
+    //构建
+>>>>>>> rmq/master
     public static RemotingCommand createResponseCommand(int code, String remark,
         Class<? extends CommandCustomHeader> classHeader) {
         RemotingCommand cmd = new RemotingCommand();
@@ -141,6 +188,7 @@ public class RemotingCommand {
         return decode(byteBuffer);
     }
 
+<<<<<<< HEAD
     public static RemotingCommand decode(final ByteBuffer byteBuffer) {
         int length = byteBuffer.limit();
         int oriHeaderLen = byteBuffer.getInt();
@@ -150,12 +198,29 @@ public class RemotingCommand {
         byteBuffer.get(headerData);
 
         RemotingCommand cmd = headerDecode(headerData, getProtocolType(oriHeaderLen));
+=======
+    //解码（Decode）、反序列化（deserialization）把从网络、磁盘等读取的字节数组还原成原始对象（通常是原始对象的拷贝），以方便后续的业务逻辑操作。
+  //在调用decode()方法解码之前，会调用NettyDecoder 类的decode()方法，在上述构造方法中，会先去掉报文的前4个字节，这4个字节是存储的后面报文的长度.
+    public static RemotingCommand decode(final ByteBuffer byteBuffer) {
+        int length = byteBuffer.limit();  //获取字节缓冲区的整个长度，这个长度等于通信协议格式的2、3、4段的总长度
+        int oriHeaderLen = byteBuffer.getInt(); //从缓冲区中读取4个字节的int类型的数据值 ，这个值就是报文头部的长度
+        int headerLength = getHeaderLength(oriHeaderLen);//取int后24位，前8位表示rpc类型 length & 0xFFFFFF; 取后24位
+
+        byte[] headerData = new byte[headerLength];
+        byteBuffer.get(headerData); //接下来从缓冲区中读取headerLength个字节的数据，这个数据就是报文头部的数据
+
+        RemotingCommand cmd = headerDecode(headerData, getProtocolType(oriHeaderLen)); //getProtocolType获取rpc类型之后按照该类型反序列化
+>>>>>>> rmq/master
 
         int bodyLength = length - 4 - headerLength;
         byte[] bodyData = null;
         if (bodyLength > 0) {
             bodyData = new byte[bodyLength];
+<<<<<<< HEAD
             byteBuffer.get(bodyData);
+=======
+            byteBuffer.get(bodyData);//接下来读取length-4-headerLength  个字节的数据，这个数据就是报文体的数据
+>>>>>>> rmq/master
         }
         cmd.body = bodyData;
 
@@ -163,12 +228,20 @@ public class RemotingCommand {
     }
 
     public static int getHeaderLength(int length) {
+<<<<<<< HEAD
         return length & 0xFFFFFF;
+=======
+        return length & 0xFFFFFF;   //取后24位
+>>>>>>> rmq/master
     }
 
     private static RemotingCommand headerDecode(byte[] headerData, SerializeType type) {
         switch (type) {
             case JSON:
+<<<<<<< HEAD
+=======
+            	//数据转换成RemotingCommand 对象
+>>>>>>> rmq/master
                 RemotingCommand resultJson = RemotingSerializable.decode(headerData, RemotingCommand.class);
                 resultJson.setSerializeTypeCurrentRPC(type);
                 return resultJson;
@@ -208,9 +281,18 @@ public class RemotingCommand {
         return true;
     }
 
+<<<<<<< HEAD
     public static byte[] markProtocolType(int source, SerializeType type) {
         byte[] result = new byte[4];
 
+=======
+    //RPC类型和headerData长度用一个int表示
+    public static byte[] markProtocolType(int source, SerializeType type) {
+        byte[] result = new byte[4];
+
+        //这个是把int 转换成字节
+        
+>>>>>>> rmq/master
         result[0] = type.getCode();
         result[1] = (byte) ((source >> 16) & 0xFF);
         result[2] = (byte) ((source >> 8) & 0xFF);
@@ -231,6 +313,13 @@ public class RemotingCommand {
         this.customHeader = customHeader;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 
+     *解码过程
+     */
+>>>>>>> rmq/master
     public CommandCustomHeader decodeCommandCustomHeader(
         Class<? extends CommandCustomHeader> classHeader) throws RemotingCommandException {
         CommandCustomHeader objectHeader;
@@ -250,8 +339,16 @@ public class RemotingCommand {
                     String fieldName = field.getName();
                     if (!fieldName.startsWith("this")) {
                         try {
+<<<<<<< HEAD
                             String value = this.extFields.get(fieldName);
                             if (null == value) {
+=======
+                            //字段不允许为空
+                            //从扩展字段里面根据key取值，如果值为空，看看是否标记注解不为空，如果标记了那么表示有问题了
+                            String value = this.extFields.get(fieldName);
+                            if (null == value) {
+                                //进行了缓存 设计模式享元模式 欢迎参考【匠心零度】公众号文章，http://mp.weixin.qq.com/s/aMTVoawP_795kSio5ysh7Q
+>>>>>>> rmq/master
                                 Annotation annotation = getNotNullAnnotation(field);
                                 if (annotation != null) {
                                     throw new RemotingCommandException("the custom field <" + fieldName + "> is null");
@@ -329,6 +426,7 @@ public class RemotingCommand {
         return name;
     }
 
+<<<<<<< HEAD
     public ByteBuffer encode() {
         // 1> header length size
         int length = 4;
@@ -359,6 +457,39 @@ public class RemotingCommand {
         }
 
         result.flip();
+=======
+    //编码（Encode）、序列化（serialization）它将对象序列化为字节数组，用于网络传输、数据持久化或者其它用途。
+    public ByteBuffer encode() {
+        // 1> header length size
+        int length = 4; //表示用4个字节来存储头部长度
+
+        // 2> header data length
+        byte[] headerData = this.headerEncode(); //报文头部的数据
+        length += headerData.length;   //加上头部报文的字节长度
+
+        // 3> body data length
+        if (this.body != null) {
+            length += body.length;  //如果报文体body有数据则加上报文体的字节长度
+        }
+
+        ByteBuffer result = ByteBuffer.allocate(4 + length); //分配一个  (4+length)这么大的字节缓冲区，这个缓冲区就用来存储上述协议格式的整个报文的数据
+
+        // length
+        result.putInt(length); //缓冲区的最开始的4个字节用来存储总的长度length
+
+        // header length
+        result.put(markProtocolType(headerData.length, serializeTypeCurrentRPC));  //缓冲区接下来4个字节用来存储报文头部的长度
+
+        // header data
+        result.put(headerData);   //缓冲区接下来存储报文头部数据
+
+        // body data;
+        if (this.body != null) {
+            result.put(this.body);  //缓冲区最后用来存储报文体的数据
+        }
+
+        result.flip();  //将缓冲区翻转，用于将ByteBuffer放到网络通道中进行传输
+>>>>>>> rmq/master
 
         return result;
     }
@@ -372,6 +503,12 @@ public class RemotingCommand {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 编码过程
+     */
+>>>>>>> rmq/master
     public void makeCustomHeaderToNet() {
         if (this.customHeader != null) {
             Field[] fields = getClazzFields(customHeader.getClass());
@@ -403,7 +540,14 @@ public class RemotingCommand {
     public ByteBuffer encodeHeader() {
         return encodeHeader(this.body != null ? this.body.length : 0);
     }
+<<<<<<< HEAD
 
+=======
+    
+    /**
+     * 只打包Header，body部分独立传输
+     */
+>>>>>>> rmq/master
     public ByteBuffer encodeHeader(final int bodyLength) {
         // 1> header length size
         int length = 4;
@@ -454,7 +598,11 @@ public class RemotingCommand {
 
     @JSONField(serialize = false)
     public RemotingCommandType getType() {
+<<<<<<< HEAD
         if (this.isResponseType()) {
+=======
+        if (this.isResponseType()) {//flag=1为true
+>>>>>>> rmq/master
             return RemotingCommandType.RESPONSE_COMMAND;
         }
 

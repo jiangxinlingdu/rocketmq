@@ -25,7 +25,14 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class TopicRouteSubCommand implements SubCommand {
+=======
+/**
+ * 查看Topic路由信息
+ */
+ public class TopicRouteSubCommand implements SubCommand {
+>>>>>>> rmq/master
 
     @Override
     public String commandName() {

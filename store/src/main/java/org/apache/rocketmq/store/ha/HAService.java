@@ -40,6 +40,7 @@ import org.apache.rocketmq.store.DefaultMessageStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 public class HAService {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
 
@@ -56,6 +57,28 @@ public class HAService {
 
     private final GroupTransferService groupTransferService;
 
+=======
+/**
+ * HA服务，负责同步双写，异步复制功能
+ */
+public class HAService {
+    private static final Logger log = LoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
+    // 客户端连接计数
+    private final AtomicInteger connectionCount = new AtomicInteger(0);
+    // 存储客户端连接
+    private final List<HAConnection> connectionList = new LinkedList<>();
+    // 接收新的Socket连接
+    private final AcceptSocketService acceptSocketService;
+    // 顶层存储对象
+    private final DefaultMessageStore defaultMessageStore;
+    // 异步通知
+    private final WaitNotifyObject waitNotifyObject = new WaitNotifyObject();
+    // 写入到Slave的最大Offset
+    private final AtomicLong push2SlaveMaxOffset = new AtomicLong(0);
+    // 主从复制通知服务
+    private final GroupTransferService groupTransferService;
+    // Slave订阅对象
+>>>>>>> rmq/master
     private final HAClient haClient;
 
     public HAService(final DefaultMessageStore defaultMessageStore) throws IOException {
@@ -76,6 +99,12 @@ public class HAService {
         this.groupTransferService.putRequest(request);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 判断主从之间数据传输是否正常
+     */
+>>>>>>> rmq/master
     public boolean isSlaveOK(final long masterPutWhere) {
         boolean result = this.connectionCount.get() > 0;
         result =
@@ -86,7 +115,11 @@ public class HAService {
     }
 
     /**
+<<<<<<< HEAD
 
+=======
+     * 通知复制了部分数据
+>>>>>>> rmq/master
      */
     public void notifyTransferSome(final long offset) {
         for (long value = this.push2SlaveMaxOffset.get(); offset > value; ) {
@@ -248,7 +281,11 @@ public class HAService {
      * GroupTransferService Service
      */
     class GroupTransferService extends ServiceThread {
+<<<<<<< HEAD
 
+=======
+        // 异步通知
+>>>>>>> rmq/master
         private final WaitNotifyObject notifyTransferObject = new WaitNotifyObject();
         private volatile List<CommitLog.GroupCommitRequest> requestsWrite = new ArrayList<>();
         private volatile List<CommitLog.GroupCommitRequest> requestsRead = new ArrayList<>();
@@ -322,14 +359,27 @@ public class HAService {
 
     class HAClient extends ServiceThread {
         private static final int READ_MAX_BUFFER_SIZE = 1024 * 1024 * 4;
+<<<<<<< HEAD
         private final AtomicReference<String> masterAddress = new AtomicReference<>();
+=======
+        // 主节点IP:PORT
+        private final AtomicReference<String> masterAddress = new AtomicReference<>();
+        // 向Master汇报Slave最大Offset
+>>>>>>> rmq/master
         private final ByteBuffer reportOffset = ByteBuffer.allocate(8);
         private SocketChannel socketChannel;
         private Selector selector;
         private long lastWriteTimestamp = System.currentTimeMillis();
+<<<<<<< HEAD
 
         private long currentReportedOffset = 0;
         private int dispatchPostion = 0;
+=======
+        // Slave向Master汇报Offset，汇报到哪里
+        private long currentReportedOffset = 0;
+        private int dispatchPostion = 0;
+        // 从Master接收数据Buffer
+>>>>>>> rmq/master
         private ByteBuffer byteBufferRead = ByteBuffer.allocate(READ_MAX_BUFFER_SIZE);
         private ByteBuffer byteBufferBackup = ByteBuffer.allocate(READ_MAX_BUFFER_SIZE);
 
@@ -355,12 +405,24 @@ public class HAService {
         }
 
         private boolean reportSlaveMaxOffset(final long maxOffset) {
+<<<<<<< HEAD
             this.reportOffset.position(0);
             this.reportOffset.limit(8);
             this.reportOffset.putLong(maxOffset);
             this.reportOffset.position(0);
             this.reportOffset.limit(8);
 
+=======
+            //为什么不clear呢
+            this.reportOffset.position(0);
+            this.reportOffset.limit(8);
+            this.reportOffset.putLong(maxOffset);
+            //奇怪为什么不写flip呢？
+            this.reportOffset.position(0);
+            this.reportOffset.limit(8);
+
+            //发送失败了试三次，成功就成功
+>>>>>>> rmq/master
             for (int i = 0; i < 3 && this.reportOffset.hasRemaining(); i++) {
                 try {
                     this.socketChannel.write(this.reportOffset);
@@ -383,7 +445,11 @@ public class HAService {
         // }
 
         /**
+<<<<<<< HEAD
 
+=======
+         * Buffer满了以后，重新整理一次
+>>>>>>> rmq/master
          */
         private void reallocateByteBuffer() {
             int remain = READ_MAX_BUFFER_SIZE - this.dispatchPostion;
@@ -452,6 +518,10 @@ public class HAService {
                     long slavePhyOffset = HAService.this.defaultMessageStore.getMaxPhyOffset();
 
                     if (slavePhyOffset != 0) {
+<<<<<<< HEAD
+=======
+                        // 发生重大错误
+>>>>>>> rmq/master
                         if (slavePhyOffset != masterPhyOffset) {
                             log.error("master pushed offset not equal the max phy offset in slave, SLAVE: "
                                 + slavePhyOffset + " MASTER: " + masterPhyOffset);
@@ -459,11 +529,19 @@ public class HAService {
                         }
                     }
 
+<<<<<<< HEAD
+=======
+                    // 可以凑够一个请求
+>>>>>>> rmq/master
                     if (diff >= (msgHeaderSize + bodySize)) {
                         byte[] bodyData = new byte[bodySize];
                         this.byteBufferRead.position(this.dispatchPostion + msgHeaderSize);
                         this.byteBufferRead.get(bodyData);
 
+<<<<<<< HEAD
+=======
+                        // 结果是否需要处理，暂时不处理
+>>>>>>> rmq/master
                         HAService.this.defaultMessageStore.appendToCommitLog(masterPhyOffset, bodyData);
 
                         this.byteBufferRead.position(readSocketPos);
@@ -489,6 +567,10 @@ public class HAService {
 
         private boolean reportSlaveMaxOffsetPlus() {
             boolean result = true;
+<<<<<<< HEAD
+=======
+            // 只要本地有更新，就汇报最大物理Offset
+>>>>>>> rmq/master
             long currentPhyOffset = HAService.this.defaultMessageStore.getMaxPhyOffset();
             if (currentPhyOffset > this.currentReportedOffset) {
                 this.currentReportedOffset = currentPhyOffset;
@@ -502,6 +584,10 @@ public class HAService {
             return result;
         }
 
+<<<<<<< HEAD
+=======
+        //与Master进行连接
+>>>>>>> rmq/master
         private boolean connectMaster() throws ClosedChannelException {
             if (null == socketChannel) {
                 String addr = this.masterAddress.get();
@@ -516,6 +602,10 @@ public class HAService {
                     }
                 }
 
+<<<<<<< HEAD
+=======
+                // 每次连接时，要重新拿到最大的Offset
+>>>>>>> rmq/master
                 this.currentReportedOffset = HAService.this.defaultMessageStore.getMaxPhyOffset();
 
                 this.lastWriteTimestamp = System.currentTimeMillis();
@@ -558,25 +648,46 @@ public class HAService {
             while (!this.isStopped()) {
                 try {
                     if (this.connectMaster()) {
+<<<<<<< HEAD
 
                         if (this.isTimeToReportOffset()) {
                             boolean result = this.reportSlaveMaxOffset(this.currentReportedOffset);
+=======
+                        // 先汇报最大物理Offset || 定时心跳方式汇报
+                        if (this.isTimeToReportOffset()) {
+                            boolean result = this.reportSlaveMaxOffset(this.currentReportedOffset);//上报master
+>>>>>>> rmq/master
                             if (!result) {
                                 this.closeMaster();
                             }
                         }
 
+<<<<<<< HEAD
                         this.selector.select(1000);
 
+=======
+                        // 等待应答
+                        this.selector.select(1000);
+
+                        // 接收数据
+>>>>>>> rmq/master
                         boolean ok = this.processReadEvent();
                         if (!ok) {
                             this.closeMaster();
                         }
 
+<<<<<<< HEAD
+=======
+                        // 只要本地有更新，就汇报最大物理Offset
+>>>>>>> rmq/master
                         if (!reportSlaveMaxOffsetPlus()) {
                             continue;
                         }
 
+<<<<<<< HEAD
+=======
+                        // 检查Master的反向心跳
+>>>>>>> rmq/master
                         long interval =
                             HAService.this.getDefaultMessageStore().getSystemClock().now()
                                 - this.lastWriteTimestamp;

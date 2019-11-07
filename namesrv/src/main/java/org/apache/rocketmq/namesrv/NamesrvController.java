@@ -34,6 +34,7 @@ import org.apache.rocketmq.remoting.netty.NettyRemotingServer;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 
 public class NamesrvController {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
@@ -51,6 +52,32 @@ public class NamesrvController {
 
     private BrokerHousekeepingService brokerHousekeepingService;
 
+=======
+/**
+ * Name Server服务控制
+ */
+public class NamesrvController {
+    private static final Logger log = LoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
+     // Name Server配置
+    private final NamesrvConfig namesrvConfig;
+    // 通信层配置
+    private final NettyServerConfig nettyServerConfig;
+    // 定时线程
+    private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl(
+        "NSScheduledThread"));  //定时线程 以NSScheduledThread开头
+    
+    /**
+     * 核心数据结构
+     */
+    private final KVConfigManager kvConfigManager;
+    private final RouteInfoManager routeInfoManager;
+    
+    // 服务端通信层对象
+    private RemotingServer remotingServer;
+    // 接收Broker连接事件
+    private BrokerHousekeepingService brokerHousekeepingService;
+    // 服务端网络请求处理线程池
+>>>>>>> rmq/master
     private ExecutorService remotingExecutor;
 
     private Configuration configuration;
@@ -60,7 +87,11 @@ public class NamesrvController {
         this.nettyServerConfig = nettyServerConfig;
         this.kvConfigManager = new KVConfigManager(this);
         this.routeInfoManager = new RouteInfoManager();
+<<<<<<< HEAD
         this.brokerHousekeepingService = new BrokerHousekeepingService(this);
+=======
+        this.brokerHousekeepingService = new BrokerHousekeepingService(this); //接收Broker连接事件
+>>>>>>> rmq/master
         this.configuration = new Configuration(
             log,
             this.namesrvConfig, this.nettyServerConfig
@@ -70,6 +101,7 @@ public class NamesrvController {
 
     public boolean initialize() {
 
+<<<<<<< HEAD
         this.kvConfigManager.load();
 
         this.remotingServer = new NettyRemotingServer(this.nettyServerConfig, this.brokerHousekeepingService);
@@ -79,13 +111,33 @@ public class NamesrvController {
 
         this.registerProcessor();
 
+=======
+    	// 加载KV配置
+        this.kvConfigManager.load();
+
+       // 初始化通信层
+        this.remotingServer = new NettyRemotingServer(this.nettyServerConfig, this.brokerHousekeepingService);  //brokerHousekeepingService 接收Broker连接事件
+
+        // 初始化固定线程池
+        this.remotingExecutor =
+            Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), new ThreadFactoryImpl("RemotingExecutorThread_"));
+
+        //注册接收到请求之后具体的处理
+        this.registerProcessor();
+
+     // 增加定时任务
+>>>>>>> rmq/master
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
             public void run() {
                 NamesrvController.this.routeInfoManager.scanNotActiveBroker();
             }
+<<<<<<< HEAD
         }, 5, 10, TimeUnit.SECONDS);
+=======
+        }, 5, 10, TimeUnit.SECONDS); //每隔10s扫描broker,维护当前存活的Broker信息
+>>>>>>> rmq/master
 
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
@@ -93,7 +145,11 @@ public class NamesrvController {
             public void run() {
                 NamesrvController.this.kvConfigManager.printAllPeriodically();
             }
+<<<<<<< HEAD
         }, 1, 10, TimeUnit.MINUTES);
+=======
+        }, 1, 10, TimeUnit.MINUTES); //每隔10s打印KVConfig信息。
+>>>>>>> rmq/master
 
         return true;
     }

@@ -21,9 +21,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+<<<<<<< HEAD
 
  *
  *
+=======
+ *索引文件头
+>>>>>>> rmq/master
  */
 public class IndexHeader {
     public static final int INDEX_HEADER_SIZE = 40;
@@ -39,7 +43,11 @@ public class IndexHeader {
     private AtomicLong beginPhyOffset = new AtomicLong(0);
     private AtomicLong endPhyOffset = new AtomicLong(0);
     private AtomicInteger hashSlotCount = new AtomicInteger(0);
+<<<<<<< HEAD
 
+=======
+    // 第一个索引是无效索引
+>>>>>>> rmq/master
     private AtomicInteger indexCount = new AtomicInteger(1);
 
     public IndexHeader(final ByteBuffer byteBuffer) {
@@ -60,7 +68,22 @@ public class IndexHeader {
         }
     }
 
+<<<<<<< HEAD
     public void updateByteBuffer() {
+=======
+    /**
+     * 更新byteBuffer
+     */
+    public void updateByteBuffer() {
+    	/** INDEX_HEADER_SIZE  索引文件头信息40个字节的数据组成
+    	 * beginTimestamp    		8位long类型，索引文件构建第一个索引的消息落在broker的时间
+    		endTimestamp         	8位long类型，索引文件构建最后一个索引消息落broker时间
+    		beginPhyOffset         	8位long类型，索引文件构建第一个索引的消息commitLog偏移量
+    		endPhyOffset            	8位long类型，索引文件构建最后一个索引消息commitLog偏移量
+    		hashSlotCount    			4位int类型，构建索引占用的槽位数(这个值貌似没有具体作用)
+    		indexCount               	4位int类型，索引文件中构建的索引个数
+    	 */
+>>>>>>> rmq/master
         this.byteBuffer.putLong(beginTimestampIndex, this.beginTimestamp.get());
         this.byteBuffer.putLong(endTimestampIndex, this.endTimestamp.get());
         this.byteBuffer.putLong(beginPhyoffsetIndex, this.beginPhyOffset.get());

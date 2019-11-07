@@ -32,13 +32,27 @@ import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class PrintMessageSubCommand implements SubCommand {
+=======
+/**
+ * 打印指定Topic的所有消息，某个时间区间，方便排查问题
+ */
+ public class PrintMessageSubCommand implements SubCommand {
+>>>>>>> rmq/master
 
     public static long timestampFormat(final String value) {
         long timestamp = 0;
         try {
+<<<<<<< HEAD
             timestamp = Long.parseLong(value);
         } catch (NumberFormatException e) {
+=======
+            // 直接输入 long 类型的 timestamp
+            timestamp = Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            // 输入的为日期格式，精确到毫秒
+>>>>>>> rmq/master
             timestamp = UtilAll.parseDate(value, UtilAll.YYYY_MM_DD_HH_MM_SS_SSS).getTime();
         }
 

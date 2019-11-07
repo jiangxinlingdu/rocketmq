@@ -31,7 +31,14 @@ import org.apache.rocketmq.tools.command.CommandUtil;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class UpdateTopicPermSubCommand implements SubCommand {
+=======
+/**
+ * 修改Topic权限命令
+ */
+ public class UpdateTopicPermSubCommand implements SubCommand {
+>>>>>>> rmq/master
 
     @Override
     public String commandName() {

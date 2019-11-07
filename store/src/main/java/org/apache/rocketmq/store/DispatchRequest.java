@@ -18,6 +18,12 @@ package org.apache.rocketmq.store;
 
 import java.util.Map;
 
+<<<<<<< HEAD
+=======
+/**
+ * 分发消息位置信息到逻辑队列和索引服务
+*/
+>>>>>>> rmq/master
 public class DispatchRequest {
     private final String topic;
     private final int queueId;

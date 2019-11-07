@@ -27,6 +27,12 @@ import org.apache.rocketmq.remoting.exception.RemotingSendRequestException;
 import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 
+<<<<<<< HEAD
+=======
+/**
+ * 通信层一些辅助方法
+ */
+>>>>>>> rmq/master
 public class RemotingHelper {
     public static final String ROCKETMQ_REMOTING = "RocketmqRemoting";
     public static final String DEFAULT_CHARSET = "UTF-8";
@@ -47,12 +53,24 @@ public class RemotingHelper {
         return sb.toString();
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * IP:PORT
+     */
+>>>>>>> rmq/master
     public static SocketAddress string2SocketAddress(final String addr) {
         String[] s = addr.split(":");
         InetSocketAddress isa = new InetSocketAddress(s[0], Integer.parseInt(s[1]));
         return isa;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 短连接调用 
+     */
+>>>>>>> rmq/master
     public static RemotingCommand invokeSync(final String addr, final RemotingCommand request,
         final long timeoutMillis) throws InterruptedException, RemotingConnectException,
         RemotingSendRequestException, RemotingTimeoutException {
@@ -63,48 +81,80 @@ public class RemotingHelper {
             boolean sendRequestOK = false;
 
             try {
+<<<<<<< HEAD
 
+=======
+            	 // 使用阻塞模式
+>>>>>>> rmq/master
                 socketChannel.configureBlocking(true);
 
                 //bugfix  http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4614802
                 socketChannel.socket().setSoTimeout((int) timeoutMillis);
+<<<<<<< HEAD
 
+=======
+                // 发送数据
+>>>>>>> rmq/master
                 ByteBuffer byteBufferRequest = request.encode();
                 while (byteBufferRequest.hasRemaining()) {
                     int length = socketChannel.write(byteBufferRequest);
                     if (length > 0) {
                         if (byteBufferRequest.hasRemaining()) {
                             if ((System.currentTimeMillis() - beginTime) > timeoutMillis) {
+<<<<<<< HEAD
 
+=======
+                            	// 发送请求超时
+>>>>>>> rmq/master
                                 throw new RemotingSendRequestException(addr);
                             }
                         }
                     } else {
                         throw new RemotingSendRequestException(addr);
                     }
+<<<<<<< HEAD
 
+=======
+                    
+                    // 比较土,但是有效
+>>>>>>> rmq/master
                     Thread.sleep(1);
                 }
 
                 sendRequestOK = true;
 
+<<<<<<< HEAD
+=======
+                // 接收应答 SIZE
+>>>>>>> rmq/master
                 ByteBuffer byteBufferSize = ByteBuffer.allocate(4);
                 while (byteBufferSize.hasRemaining()) {
                     int length = socketChannel.read(byteBufferSize);
                     if (length > 0) {
                         if (byteBufferSize.hasRemaining()) {
                             if ((System.currentTimeMillis() - beginTime) > timeoutMillis) {
+<<<<<<< HEAD
 
+=======
+                            	// 接收应答超时
+>>>>>>> rmq/master
                                 throw new RemotingTimeoutException(addr, timeoutMillis);
                             }
                         }
                     } else {
                         throw new RemotingTimeoutException(addr, timeoutMillis);
                     }
+<<<<<<< HEAD
 
                     Thread.sleep(1);
                 }
 
+=======
+                   // 比较土
+                    Thread.sleep(1);
+                }
+                // 接收应答 BODY
+>>>>>>> rmq/master
                 int size = byteBufferSize.getInt(0);
                 ByteBuffer byteBufferBody = ByteBuffer.allocate(size);
                 while (byteBufferBody.hasRemaining()) {
@@ -112,17 +162,28 @@ public class RemotingHelper {
                     if (length > 0) {
                         if (byteBufferBody.hasRemaining()) {
                             if ((System.currentTimeMillis() - beginTime) > timeoutMillis) {
+<<<<<<< HEAD
 
+=======
+                            	// 接收应答超时
+>>>>>>> rmq/master
                                 throw new RemotingTimeoutException(addr, timeoutMillis);
                             }
                         }
                     } else {
                         throw new RemotingTimeoutException(addr, timeoutMillis);
                     }
+<<<<<<< HEAD
 
                     Thread.sleep(1);
                 }
 
+=======
+                    // 比较土
+                    Thread.sleep(1);
+                }
+             // 对应答数据解码
+>>>>>>> rmq/master
                 byteBufferBody.flip();
                 return RemotingCommand.decode(byteBufferBody);
             } catch (IOException e) {

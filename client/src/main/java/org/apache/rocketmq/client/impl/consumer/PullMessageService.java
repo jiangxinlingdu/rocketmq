@@ -27,8 +27,18 @@ import org.apache.rocketmq.common.ServiceThread;
 import org.apache.rocketmq.common.utils.ThreadUtils;
 import org.slf4j.Logger;
 
+<<<<<<< HEAD
 public class PullMessageService extends ServiceThread {
     private final Logger log = ClientLogger.getLog();
+=======
+/**
+ * 拉取消息服务   它只是对拉取请求进行了封装，使其
+ */
+public class PullMessageService extends ServiceThread {
+    private final Logger log = ClientLogger.getLog();
+    
+    //拉取消息请求队列
+>>>>>>> rmq/master
     private final LinkedBlockingQueue<PullRequest> pullRequestQueue = new LinkedBlockingQueue<PullRequest>();
     private final MQClientInstance mQClientFactory;
     private final ScheduledExecutorService scheduledExecutorService = Executors
@@ -53,6 +63,10 @@ public class PullMessageService extends ServiceThread {
         }, timeDelay, TimeUnit.MILLISECONDS);
     }
 
+<<<<<<< HEAD
+=======
+    //往pullRequestQueue里面put元素
+>>>>>>> rmq/master
     public void executePullRequestImmediately(final PullRequest pullRequest) {
         try {
             this.pullRequestQueue.put(pullRequest);
@@ -69,11 +83,21 @@ public class PullMessageService extends ServiceThread {
         return scheduledExecutorService;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 拉取消息
+     */
+>>>>>>> rmq/master
     private void pullMessage(final PullRequest pullRequest) {
         final MQConsumerInner consumer = this.mQClientFactory.selectConsumer(pullRequest.getConsumerGroup());
         if (consumer != null) {
             DefaultMQPushConsumerImpl impl = (DefaultMQPushConsumerImpl) consumer;
+<<<<<<< HEAD
             impl.pullMessage(pullRequest);
+=======
+            impl.pullMessage(pullRequest); //拉取消息
+>>>>>>> rmq/master
         } else {
             log.warn("No matched consumer for the PullRequest {}, drop it", pullRequest);
         }
@@ -83,11 +107,19 @@ public class PullMessageService extends ServiceThread {
     public void run() {
         log.info(this.getServiceName() + " service started");
 
+<<<<<<< HEAD
         while (!this.isStopped()) {
             try {
                 PullRequest pullRequest = this.pullRequestQueue.take();
                 if (pullRequest != null) {
                     this.pullMessage(pullRequest);
+=======
+        while (!this.isStopped()) { //没有停止
+            try {
+                PullRequest pullRequest = this.pullRequestQueue.take();
+                if (pullRequest != null) {
+                    this.pullMessage(pullRequest); //一直循环发拉取消息的请求，过程中被pullRequestQueue阻塞队列阻塞。
+>>>>>>> rmq/master
                 }
             } catch (InterruptedException e) {
             } catch (Exception e) {

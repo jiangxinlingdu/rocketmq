@@ -187,7 +187,11 @@ public class CountDownLatch2 {
         }
 
         protected void reset() {
+<<<<<<< HEAD
             setState(startCount);
+=======
+            setState(startCount);  //设置同步状态的值。
+>>>>>>> rmq/master
         }
     }
 }

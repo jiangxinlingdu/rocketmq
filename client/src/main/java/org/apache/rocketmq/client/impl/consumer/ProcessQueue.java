@@ -35,6 +35,10 @@ import org.slf4j.Logger;
 
 /**
  * Queue consumption snapshot
+<<<<<<< HEAD
+=======
+ * 消息处理队列
+>>>>>>> rmq/master
  */
 public class ProcessQueue {
     public final static long REBALANCE_LOCK_MAX_LIVE_TIME =
@@ -67,6 +71,10 @@ public class ProcessQueue {
 
     /**
      * @param pushConsumer
+<<<<<<< HEAD
+=======
+     * 清除超时的消息 防止有些一些消费不了，消费进度不变化情况。
+>>>>>>> rmq/master
      */
     public void cleanExpiredMsg(DefaultMQPushConsumer pushConsumer) {
         if (pushConsumer.getDefaultMQPushConsumerImpl().isConsumeOrderly()) {
@@ -79,6 +87,10 @@ public class ProcessQueue {
             try {
                 this.lockTreeMap.readLock().lockInterruptibly();
                 try {
+<<<<<<< HEAD
+=======
+                    //默认超时时间设置的是15分钟 DefaultMQPushConsumer，consumeTimeout=15，这里有个尴尬的地方，可能刚刚好错过时间，那么执行的时间就是快30分钟了
+>>>>>>> rmq/master
                     if (!msgTreeMap.isEmpty() && System.currentTimeMillis() - Long.parseLong(MessageAccessor.getConsumeStartTimeStamp(msgTreeMap.firstEntry().getValue())) > pushConsumer.getConsumeTimeout() * 60 * 1000) {
                         msg = msgTreeMap.firstEntry().getValue();
                     } else {
@@ -118,6 +130,10 @@ public class ProcessQueue {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //putMessage 拉取到消息到消息处理队列中
+>>>>>>> rmq/master
     public boolean putMessage(final List<MessageExt> msgs) {
         boolean dispatchToConsume = false;
         try {

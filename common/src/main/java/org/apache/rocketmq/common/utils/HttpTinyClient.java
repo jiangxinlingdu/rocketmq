@@ -27,6 +27,12 @@ import java.util.List;
 import org.apache.rocketmq.common.MQVersion;
 import org.apache.rocketmq.common.MixAll;
 
+<<<<<<< HEAD
+=======
+/**
+ * HTTP 简易客户端
+ */
+>>>>>>> rmq/master
 public class HttpTinyClient {
 
     static public HttpResult httpGet(String url, List<String> headers, List<String> paramValues,

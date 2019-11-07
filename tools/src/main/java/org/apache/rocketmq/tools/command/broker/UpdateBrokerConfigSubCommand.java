@@ -28,7 +28,14 @@ import org.apache.rocketmq.tools.command.CommandUtil;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class UpdateBrokerConfigSubCommand implements SubCommand {
+=======
+/**
+ * 更新Broker配置文件
+ */
+ public class UpdateBrokerConfigSubCommand implements SubCommand {
+>>>>>>> rmq/master
 
     @Override
     public String commandName() {

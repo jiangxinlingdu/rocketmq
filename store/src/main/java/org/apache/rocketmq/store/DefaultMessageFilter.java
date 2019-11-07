@@ -21,6 +21,12 @@ import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
+<<<<<<< HEAD
+=======
+/**
+ * 消息过滤规则实现
+ */
+>>>>>>> rmq/master
 public class DefaultMessageFilter implements MessageFilter {
 
     private SubscriptionData subscriptionData;

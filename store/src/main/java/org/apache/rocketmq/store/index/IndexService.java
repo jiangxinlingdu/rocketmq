@@ -33,15 +33,31 @@ import org.apache.rocketmq.store.config.StorePathConfigHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 消息索引服务
+ */
+>>>>>>> rmq/master
 public class IndexService {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
     /** Maximum times to attempt index file creation. */
     private static final int MAX_TRY_IDX_CREATE = 3;
     private final DefaultMessageStore defaultMessageStore;
+<<<<<<< HEAD
     private final int hashSlotNum;
     private final int indexNum;
     private final String storePath;
     private final ArrayList<IndexFile> indexFileList = new ArrayList<IndexFile>();
+=======
+    // 索引配置
+    private final int hashSlotNum;  //槽位个数
+    private final int indexNum;//存储索引的最大个数
+    private final String storePath;//引文件indexFile存储的路径
+    // 索引文件集合
+    private final ArrayList<IndexFile> indexFileList = new ArrayList<IndexFile>();
+    // 读写锁（针对indexFileList）
+>>>>>>> rmq/master
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     public IndexService(final DefaultMessageStore store) {
@@ -52,6 +68,10 @@ public class IndexService {
             StorePathConfigHelper.getStorePathIndex(store.getMessageStoreConfig().getStorePathRootDir());
     }
 
+<<<<<<< HEAD
+=======
+    //broker启动的时候加载本地IndexFile
+>>>>>>> rmq/master
     public boolean load(final boolean lastExitOK) {
         File dir = new File(this.storePath);
         File[] files = dir.listFiles();
@@ -85,6 +105,12 @@ public class IndexService {
         return true;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 删除索引文件
+     */
+>>>>>>> rmq/master
     public void deleteExpiredFile(long offset) {
         Object[] files = null;
         try {
@@ -118,6 +144,12 @@ public class IndexService {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 删除文件只能从头开始删
+     */
+>>>>>>> rmq/master
     private void deleteExpiredFile(List<IndexFile> files) {
         if (!files.isEmpty()) {
             try {
@@ -152,6 +184,10 @@ public class IndexService {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //通过key查询就需要indexFile相关内容了
+>>>>>>> rmq/master
     public QueryOffsetResult queryOffset(String topic, String key, int maxNum, long begin, long end) {
         List<Long> phyOffsets = new ArrayList<Long>(maxNum);
 
@@ -170,10 +206,18 @@ public class IndexService {
                     }
 
                     if (f.isTimeMatched(begin, end)) {
+<<<<<<< HEAD
 
                         f.selectPhyOffset(phyOffsets, buildKey(topic, key), maxNum, begin, end, lastFile);
                     }
 
+=======
+                    	// 最后一个文件需要加锁
+                        f.selectPhyOffset(phyOffsets, buildKey(topic, key), maxNum, begin, end, lastFile);
+                    }
+
+                 // 再往前遍历时间更不符合
+>>>>>>> rmq/master
                     if (f.getBeginTimestamp() < begin) {
                         break;
                     }
@@ -192,12 +236,22 @@ public class IndexService {
         return new QueryOffsetResult(phyOffsets, indexLastUpdateTimestamp, indexLastUpdatePhyoffset);
     }
 
+<<<<<<< HEAD
+=======
+    //构建索引key
+>>>>>>> rmq/master
     private String buildKey(final String topic, final String key) {
         return topic + "#" + key;
     }
 
+<<<<<<< HEAD
     public void buildIndex(DispatchRequest req) {
         IndexFile indexFile = retryGetAndCreateIndexFile();
+=======
+    //构建索引
+    public void buildIndex(DispatchRequest req) {
+        IndexFile indexFile = retryGetAndCreateIndexFile();//如果indexFile有就获取没有就创建
+>>>>>>> rmq/master
         if (indexFile != null) {
             long endPhyOffset = indexFile.getEndPhyOffset();
             DispatchRequest msg = req;
@@ -247,12 +301,20 @@ public class IndexService {
         for (boolean ok = indexFile.putKey(idxKey, msg.getCommitLogOffset(), msg.getStoreTimestamp()); !ok; ) {
             log.warn("Index file [" + indexFile.getFileName() + "] is full, trying to create another one");
 
+<<<<<<< HEAD
             indexFile = retryGetAndCreateIndexFile();
+=======
+            indexFile = retryGetAndCreateIndexFile();//如果indexFile有就获取没有就创建
+>>>>>>> rmq/master
             if (null == indexFile) {
                 return null;
             }
 
+<<<<<<< HEAD
             ok = indexFile.putKey(idxKey, msg.getCommitLogOffset(), msg.getStoreTimestamp());
+=======
+            ok = indexFile.putKey(idxKey, msg.getCommitLogOffset(), msg.getStoreTimestamp());//写入索引消息
+>>>>>>> rmq/master
         }
 
         return indexFile;
@@ -266,6 +328,10 @@ public class IndexService {
     public IndexFile retryGetAndCreateIndexFile() {
         IndexFile indexFile = null;
 
+<<<<<<< HEAD
+=======
+     // 如果创建失败，尝试重建3次
+>>>>>>> rmq/master
         for (int times = 0; null == indexFile && times < MAX_TRY_IDX_CREATE; times++) {
             indexFile = this.getAndCreateLastIndexFile();
             if (null != indexFile)
@@ -279,6 +345,10 @@ public class IndexService {
             }
         }
 
+<<<<<<< HEAD
+=======
+     // 重试多次，仍然无法创建索引文件
+>>>>>>> rmq/master
         if (null == indexFile) {
             this.defaultMessageStore.getAccessRights().makeIndexFileError();
             log.error("Mark index file cannot build flag");
@@ -287,12 +357,23 @@ public class IndexService {
         return indexFile;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 获取最后一个索引文件，如果集合为空或者最后一个文件写满了，则新建一个文件<br>
+     * 只有一个线程调用，所以不存在写竟争问题
+     */
+>>>>>>> rmq/master
     public IndexFile getAndCreateLastIndexFile() {
         IndexFile indexFile = null;
         IndexFile prevIndexFile = null;
         long lastUpdateEndPhyOffset = 0;
         long lastUpdateIndexTimestamp = 0;
+<<<<<<< HEAD
 
+=======
+       // 先尝试使用读锁
+>>>>>>> rmq/master
         {
             this.readWriteLock.readLock().lock();
             if (!this.indexFileList.isEmpty()) {
@@ -309,11 +390,19 @@ public class IndexService {
             this.readWriteLock.readLock().unlock();
         }
 
+<<<<<<< HEAD
+=======
+     // 如果没找到，使用写锁创建文件
+>>>>>>> rmq/master
         if (indexFile == null) {
             try {
                 String fileName =
                     this.storePath + File.separator
+<<<<<<< HEAD
                         + UtilAll.timeMillisToHumanString(System.currentTimeMillis());
+=======
+                        + UtilAll.timeMillisToHumanString(System.currentTimeMillis()); //fileName是以创建时的时间戳命名的
+>>>>>>> rmq/master
                 indexFile =
                     new IndexFile(fileName, this.hashSlotNum, this.indexNum, lastUpdateEndPhyOffset,
                         lastUpdateIndexTimestamp);
@@ -325,6 +414,10 @@ public class IndexService {
                 this.readWriteLock.writeLock().unlock();
             }
 
+<<<<<<< HEAD
+=======
+            // 每创建一个新文件，之前文件要刷盘
+>>>>>>> rmq/master
             if (indexFile != null) {
                 final IndexFile flushThisFile = prevIndexFile;
                 Thread flushThread = new Thread(new Runnable() {

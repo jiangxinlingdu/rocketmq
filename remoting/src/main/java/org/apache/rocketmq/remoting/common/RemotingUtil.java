@@ -35,7 +35,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 
+=======
+/**
+ * 网络相关方法
+ */
+>>>>>>> rmq/master
 public class RemotingUtil {
     public static final String OS_NAME = System.getProperty("os.name");
 
@@ -59,7 +65,11 @@ public class RemotingUtil {
 
     public static Selector openSelector() throws IOException {
         Selector result = null;
+<<<<<<< HEAD
 
+=======
+        // 在linux平台，尽量启用epoll实现
+>>>>>>> rmq/master
         if (isLinuxPlatform()) {
             try {
                 final Class<?> providerClazz = Class.forName("sun.nio.ch.EPollSelectorProvider");
@@ -147,6 +157,12 @@ public class RemotingUtil {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * IP:PORT
+     */
+>>>>>>> rmq/master
     public static SocketAddress string2SocketAddress(final String addr) {
         String[] s = addr.split(":");
         InetSocketAddress isa = new InetSocketAddress(s[0], Integer.parseInt(s[1]));

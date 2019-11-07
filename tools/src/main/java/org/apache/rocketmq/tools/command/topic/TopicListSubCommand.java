@@ -36,7 +36,14 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class TopicListSubCommand implements SubCommand {
+=======
+/**
+ * 查看Topic统计信息，包括offset、最后更新时间
+ */
+ public class TopicListSubCommand implements SubCommand {
+>>>>>>> rmq/master
 
     @Override
     public String commandName() {

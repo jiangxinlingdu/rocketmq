@@ -20,6 +20,13 @@ package org.apache.rocketmq.common;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
+<<<<<<< HEAD
+=======
+/**
+ * 好的编程习惯，这样线程名称根据自己要求进行定义了
+ *
+ */
+>>>>>>> rmq/master
 public class ThreadFactoryImpl implements ThreadFactory {
     private final AtomicLong threadIndex = new AtomicLong(0);
     private final String threadNamePrefix;

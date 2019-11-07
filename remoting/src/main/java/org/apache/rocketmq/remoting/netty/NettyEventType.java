@@ -16,6 +16,12 @@
  */
 package org.apache.rocketmq.remoting.netty;
 
+<<<<<<< HEAD
+=======
+/**
+ * Netty产生的事件类型
+ */
+>>>>>>> rmq/master
 public enum NettyEventType {
     CONNECT,
     CLOSE,

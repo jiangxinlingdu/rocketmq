@@ -72,7 +72,15 @@ import org.apache.rocketmq.tools.command.topic.UpdateTopicPermSubCommand;
 import org.apache.rocketmq.tools.command.topic.UpdateTopicSubCommand;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 public class MQAdminStartup {
+=======
+/**
+ * mqadmin启动程序
+ * RocketMQ运维指令
+ */
+ public class MQAdminStartup {
+>>>>>>> rmq/master
     protected static List<SubCommand> subCommandList = new ArrayList<SubCommand>();
 
     public static void main(String[] args) {
@@ -84,7 +92,11 @@ public class MQAdminStartup {
 
         //PackageConflictDetect.detectFastjson();
 
+<<<<<<< HEAD
         initCommand();
+=======
+        initCommand();//初始化一些对象，加入subCommandList中
+>>>>>>> rmq/master
 
         try {
             initLogback();
@@ -110,8 +122,15 @@ public class MQAdminStartup {
                 default:
                     SubCommand cmd = findSubCommand(args[0]);
                     if (cmd != null) {
+<<<<<<< HEAD
                         String[] subargs = parseSubArgs(args);
 
+=======
+                        // 将main中的args转化为子命令的args（去除第一个参数）
+                        String[] subargs = parseSubArgs(args);
+
+                        // 解析命令行
+>>>>>>> rmq/master
                         Options options = ServerUtil.buildCommandlineOptions(new Options());
                         final CommandLine commandLine =
                             ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options),
@@ -154,7 +173,11 @@ public class MQAdminStartup {
         initCommand(new QueryMsgByKeySubCommand());
         initCommand(new QueryMsgByUniqueKeySubCommand());
         initCommand(new QueryMsgByOffsetSubCommand());
+<<<<<<< HEAD
         initCommand(new QueryMsgByUniqueKeySubCommand());
+=======
+        initCommand(new QueryMsgByUniqueKeySubCommand());//还犯错误了，居然添加2次了
+>>>>>>> rmq/master
         initCommand(new PrintMessageSubCommand());
         initCommand(new PrintMessageByQueueCommand());
         initCommand(new SendMsgStatusCommand());
@@ -195,8 +218,16 @@ public class MQAdminStartup {
     }
 
     private static void initLogback() throws JoranException {
+<<<<<<< HEAD
         String rocketmqHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY, System.getenv(MixAll.ROCKETMQ_HOME_ENV));
 
+=======
+       // String rocketmqHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY, System.getenv(MixAll.ROCKETMQ_HOME_ENV));
+
+        String rocketmqHome = "D:\\\\eclipse-workspace\\\\rocketmq-rocketmq-all-4.1.0-incubating\\\\rocketmq-rocketmq-all-4.1.0-incubating\\\\distribution";
+
+        // 初始化Logback
+>>>>>>> rmq/master
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         JoranConfigurator configurator = new JoranConfigurator();
         configurator.setContext(lc);

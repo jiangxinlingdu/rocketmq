@@ -215,6 +215,10 @@ public abstract class RebalanceImpl {
         }
     }
 
+<<<<<<< HEAD
+=======
+    //负载均衡
+>>>>>>> rmq/master
     public void doRebalance(final boolean isOrder) {
         Map<String, SubscriptionData> subTable = this.getSubscriptionInner();
         if (subTable != null) {
@@ -280,6 +284,10 @@ public abstract class RebalanceImpl {
 
                     List<MessageQueue> allocateResult = null;
                     try {
+<<<<<<< HEAD
+=======
+                        //根据策略进行分配
+>>>>>>> rmq/master
                         allocateResult = strategy.allocate(//
                             this.consumerGroup, //
                             this.mQClientFactory.getClientId(), //
@@ -296,6 +304,10 @@ public abstract class RebalanceImpl {
                         allocateResultSet.addAll(allocateResult);
                     }
 
+<<<<<<< HEAD
+=======
+                    //
+>>>>>>> rmq/master
                     boolean changed = this.updateProcessQueueTableInRebalance(topic, allocateResultSet, isOrder);
                     if (changed) {
                         log.info(
@@ -374,6 +386,10 @@ public abstract class RebalanceImpl {
 
                 this.removeDirtyOffset(mq);
                 ProcessQueue pq = new ProcessQueue();
+<<<<<<< HEAD
+=======
+                //计算消息队列开始消费位置
+>>>>>>> rmq/master
                 long nextOffset = this.computePullFromWhere(mq);
                 if (nextOffset >= 0) {
                     ProcessQueue pre = this.processQueueTable.putIfAbsent(mq, pq);
@@ -395,6 +411,10 @@ public abstract class RebalanceImpl {
             }
         }
 
+<<<<<<< HEAD
+=======
+        //马上执行拉请求
+>>>>>>> rmq/master
         this.dispatchPullRequest(pullRequestList);
 
         return changed;
@@ -408,8 +428,15 @@ public abstract class RebalanceImpl {
 
     public abstract void removeDirtyOffset(final MessageQueue mq);
 
+<<<<<<< HEAD
     public abstract long computePullFromWhere(final MessageQueue mq);
 
+=======
+    //计算消息队列开始消费位置
+    public abstract long computePullFromWhere(final MessageQueue mq);
+
+    //
+>>>>>>> rmq/master
     public abstract void dispatchPullRequest(final List<PullRequest> pullRequestList);
 
     public void removeProcessQueue(final MessageQueue mq) {

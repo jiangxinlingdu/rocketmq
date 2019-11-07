@@ -16,6 +16,10 @@
  */
 package org.apache.rocketmq.client.impl.factory;
 
+<<<<<<< HEAD
+=======
+import com.alibaba.fastjson.JSON;
+>>>>>>> rmq/master
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramSocket;
 import java.util.Collections;
@@ -82,6 +86,14 @@ import org.apache.rocketmq.remoting.netty.NettyClientConfig;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.slf4j.Logger;
 
+<<<<<<< HEAD
+=======
+/**
+ * 
+ 与mq交互的实例
+ *
+ */
+>>>>>>> rmq/master
 public class MQClientInstance {
     private final static long LOCK_TIMEOUT_MILLIS = 3000;
     private final Logger log = ClientLogger.getLog();
@@ -155,9 +167,18 @@ public class MQClientInstance {
             MQVersion.getVersionDesc(MQVersion.CURRENT_VERSION), RemotingCommand.getSerializeTypeConfigInThisServer());
     }
 
+<<<<<<< HEAD
     public static TopicPublishInfo topicRouteData2TopicPublishInfo(final String topic, final TopicRouteData route) {
         TopicPublishInfo info = new TopicPublishInfo();
         info.setTopicRouteData(route);
+=======
+    //topicRouteData转换为TopicPublishInfo
+    public static TopicPublishInfo topicRouteData2TopicPublishInfo(final String topic, final TopicRouteData route) {
+        TopicPublishInfo info = new TopicPublishInfo();
+        info.setTopicRouteData(route);
+
+        //有序
+>>>>>>> rmq/master
         if (route.getOrderTopicConf() != null && route.getOrderTopicConf().length() > 0) {
             String[] brokers = route.getOrderTopicConf().split(";");
             for (String broker : brokers) {
@@ -170,9 +191,17 @@ public class MQClientInstance {
             }
 
             info.setOrderTopic(true);
+<<<<<<< HEAD
         } else {
             List<QueueData> qds = route.getQueueDatas();
             Collections.sort(qds);
+=======
+        }
+        //无序
+        else {
+            List<QueueData> qds = route.getQueueDatas();
+            Collections.sort(qds);//按照brokerName升序进行排序的
+>>>>>>> rmq/master
             for (QueueData qd : qds) {
                 if (PermName.isWriteable(qd.getPerm())) {
                     BrokerData brokerData = null;
@@ -193,7 +222,11 @@ public class MQClientInstance {
 
                     for (int i = 0; i < qd.getWriteQueueNums(); i++) {
                         MessageQueue mq = new MessageQueue(topic, qd.getBrokerName(), i);
+<<<<<<< HEAD
                         info.getMessageQueueList().add(mq);
+=======
+                        info.getMessageQueueList().add(mq);//由于brokerName是排序的，TopicPublishInfo里面的messageQueueList就是有序的了从小到大
+>>>>>>> rmq/master
                     }
                 }
             }
@@ -446,11 +479,22 @@ public class MQClientInstance {
         }
     }
 
+<<<<<<< HEAD
     public void sendHeartbeatToAllBrokerWithLock() {
         if (this.lockHeartbeat.tryLock()) {
             try {
                 this.sendHeartbeatToAllBroker();
                 this.uploadFilterClassSource();
+=======
+    /**
+     * 线程安全的发送心跳数据到Broker
+     */
+    public void sendHeartbeatToAllBrokerWithLock() {
+        if (this.lockHeartbeat.tryLock()) {
+            try {
+                this.sendHeartbeatToAllBroker();//发送心跳数据到Broker
+                this.uploadFilterClassSource();//上传FilterClass源码
+>>>>>>> rmq/master
             } catch (final Exception e) {
                 log.error("sendHeartbeatToAllBroker exception", e);
             } finally {
@@ -591,7 +635,11 @@ public class MQClientInstance {
                     TopicRouteData topicRouteData;
                     if (isDefault && defaultMQProducer != null) {
                         topicRouteData = this.mQClientAPIImpl.getDefaultTopicRouteInfoFromNameServer(defaultMQProducer.getCreateTopicKey(),
+<<<<<<< HEAD
                             1000 * 3);
+=======
+                            1000 * 3);//获取topic规则
+>>>>>>> rmq/master
                         if (topicRouteData != null) {
                             for (QueueData data : topicRouteData.getQueueDatas()) {
                                 int queueNums = Math.min(defaultMQProducer.getDefaultTopicQueueNums(), data.getReadQueueNums());
@@ -627,7 +675,11 @@ public class MQClientInstance {
                                     Entry<String, MQProducerInner> entry = it.next();
                                     MQProducerInner impl = entry.getValue();
                                     if (impl != null) {
+<<<<<<< HEAD
                                         impl.updateTopicPublishInfo(topic, publishInfo);
+=======
+                                        impl.updateTopicPublishInfo(topic, publishInfo);//更新topic的PublishInfo
+>>>>>>> rmq/master
                                     }
                                 }
                             }
@@ -680,10 +732,17 @@ public class MQClientInstance {
             if (impl != null) {
                 ConsumerData consumerData = new ConsumerData();
                 consumerData.setGroupName(impl.groupName());
+<<<<<<< HEAD
                 consumerData.setConsumeType(impl.consumeType());
                 consumerData.setMessageModel(impl.messageModel());
                 consumerData.setConsumeFromWhere(impl.consumeFromWhere());
                 consumerData.getSubscriptionDataSet().addAll(impl.subscriptions());
+=======
+                consumerData.setConsumeType(impl.consumeType());//消费类型 拉 推
+                consumerData.setMessageModel(impl.messageModel());//消费类型 广播 集群
+                consumerData.setConsumeFromWhere(impl.consumeFromWhere());
+                consumerData.getSubscriptionDataSet().addAll(impl.subscriptions());//根据负载均衡之后的订阅信息
+>>>>>>> rmq/master
                 consumerData.setUnitMode(impl.isUnitMode());
 
                 heartbeatData.getConsumerDataSet().add(consumerData);
@@ -940,10 +999,18 @@ public class MQClientInstance {
         this.adminExtTable.remove(group);
     }
 
+<<<<<<< HEAD
+=======
+    //立马负载均衡
+>>>>>>> rmq/master
     public void rebalanceImmediately() {
         this.rebalanceService.wakeup();
     }
 
+<<<<<<< HEAD
+=======
+    //负载均衡
+>>>>>>> rmq/master
     public void doRebalance() {
         for (Map.Entry<String, MQConsumerInner> entry : this.consumerTable.entrySet()) {
             MQConsumerInner impl = entry.getValue();

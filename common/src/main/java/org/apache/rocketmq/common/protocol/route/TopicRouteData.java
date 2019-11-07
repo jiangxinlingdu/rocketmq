@@ -25,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
+<<<<<<< HEAD
+=======
+/**
+ * Topic路由数据，从Name Server获取
+ */
+>>>>>>> rmq/master
 public class TopicRouteData extends RemotingSerializable {
     private String orderTopicConf;
     private List<QueueData> queueDatas;

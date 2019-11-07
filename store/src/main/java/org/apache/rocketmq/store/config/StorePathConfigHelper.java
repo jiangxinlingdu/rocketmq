@@ -33,11 +33,19 @@ public class StorePathConfigHelper {
     }
 
     public static String getStoreCheckpoint(final String rootDir) {
+<<<<<<< HEAD
         return rootDir + File.separator + "checkpoint";
     }
 
     public static String getAbortFile(final String rootDir) {
         return rootDir + File.separator + "abort";
+=======
+        return rootDir + File.separator + "checkpoint"; //checkpoint作用是当异常恢复时需要根据checkpoint点来恢复消息
+    }
+
+    public static String getAbortFile(final String rootDir) {
+        return rootDir + File.separator + "abort"; // 当存在abort文件，系统认为是异常恢复
+>>>>>>> rmq/master
     }
 
     public static String getDelayOffsetStorePath(final String rootDir) {
@@ -49,7 +57,11 @@ public class StorePathConfigHelper {
     }
 
     public static String getTranRedoLogStorePath(final String rootDir) {
+<<<<<<< HEAD
         return rootDir + File.separator + "transaction" + File.separator + "redolog";
+=======
+        return rootDir + File.separator + "transaction" + File.separator + "redolog"; //oracle mysql都存在该概念
+>>>>>>> rmq/master
     }
 
 }

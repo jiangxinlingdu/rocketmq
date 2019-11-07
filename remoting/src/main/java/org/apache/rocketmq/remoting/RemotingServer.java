@@ -25,25 +25,60 @@ import org.apache.rocketmq.remoting.exception.RemotingTooMuchRequestException;
 import org.apache.rocketmq.remoting.netty.NettyRequestProcessor;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 
+<<<<<<< HEAD
 public interface RemotingServer extends RemotingService {
 
+=======
+/**
+ * 远程通信，Server接口
+ */
+public interface RemotingServer extends RemotingService {
+
+	/**
+     * 注册请求处理器，ExecutorService必须要对应一个队列大小有限制的阻塞队列，防止OOM
+     */
+>>>>>>> rmq/master
     void registerProcessor(final int requestCode, final NettyRequestProcessor processor,
         final ExecutorService executor);
 
     void registerDefaultProcessor(final NettyRequestProcessor processor, final ExecutorService executor);
 
+<<<<<<< HEAD
+=======
+    /**
+     * 服务器绑定的本地端口
+     */
+>>>>>>> rmq/master
     int localListenPort();
 
     Pair<NettyRequestProcessor, ExecutorService> getProcessorPair(final int requestCode);
 
+<<<<<<< HEAD
+=======
+    /**
+     * 同步调用
+     */
+>>>>>>> rmq/master
     RemotingCommand invokeSync(final Channel channel, final RemotingCommand request,
         final long timeoutMillis) throws InterruptedException, RemotingSendRequestException,
         RemotingTimeoutException;
 
+<<<<<<< HEAD
+=======
+    /**
+     * 异步调用
+     */
+>>>>>>> rmq/master
     void invokeAsync(final Channel channel, final RemotingCommand request, final long timeoutMillis,
         final InvokeCallback invokeCallback) throws InterruptedException,
         RemotingTooMuchRequestException, RemotingTimeoutException, RemotingSendRequestException;
 
+<<<<<<< HEAD
+=======
+    /**
+     * 单向调用
+     */
+>>>>>>> rmq/master
     void invokeOneway(final Channel channel, final RemotingCommand request, final long timeoutMillis)
         throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException,
         RemotingSendRequestException;

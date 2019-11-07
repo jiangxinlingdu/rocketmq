@@ -176,7 +176,11 @@ public class MQClientAPIImpl {
         this.remotingClient = new NettyRemotingClient(nettyClientConfig, null);
         this.clientRemotingProcessor = clientRemotingProcessor;
 
+<<<<<<< HEAD
         this.remotingClient.registerRPCHook(rpcHook);
+=======
+        this.remotingClient.registerRPCHook(rpcHook); 
+>>>>>>> rmq/master
         this.remotingClient.registerProcessor(RequestCode.CHECK_TRANSACTION_STATE, this.clientRemotingProcessor, null);
 
         this.remotingClient.registerProcessor(RequestCode.NOTIFY_CONSUMER_IDS_CHANGED, this.clientRemotingProcessor, null);
@@ -483,6 +487,12 @@ public class MQClientAPIImpl {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 处理发送响应
+     */
+>>>>>>> rmq/master
     private SendResult processSendResponse(//
         final String brokerName, //
         final Message msg, //
@@ -493,7 +503,13 @@ public class MQClientAPIImpl {
             case ResponseCode.FLUSH_SLAVE_TIMEOUT:
             case ResponseCode.SLAVE_NOT_AVAILABLE: {
                 // TODO LOG
+<<<<<<< HEAD
             }
+=======
+                //一些异常情况 应该记录日志
+            }
+            //表示成功
+>>>>>>> rmq/master
             case ResponseCode.SUCCESS: {
                 SendStatus sendStatus = SendStatus.SEND_OK;
                 switch (response.getCode()) {
@@ -519,7 +535,11 @@ public class MQClientAPIImpl {
 
                 MessageQueue messageQueue = new MessageQueue(msg.getTopic(), brokerName, responseHeader.getQueueId());
 
+<<<<<<< HEAD
                 String uniqMsgId = MessageClientIDSetter.getUniqID(msg);
+=======
+                String uniqMsgId = MessageClientIDSetter.getUniqID(msg); //就在这里获取的UNIQ_
+>>>>>>> rmq/master
                 if (msg instanceof MessageBatch) {
                     StringBuilder sb = new StringBuilder();
                     for (Message message : (MessageBatch) msg) {
@@ -529,7 +549,11 @@ public class MQClientAPIImpl {
                 }
                 SendResult sendResult = new SendResult(sendStatus,
                     uniqMsgId,
+<<<<<<< HEAD
                     responseHeader.getMsgId(), messageQueue, responseHeader.getQueueOffset());
+=======
+                    responseHeader.getMsgId(), messageQueue, responseHeader.getQueueOffset()); //构建sendResult
+>>>>>>> rmq/master
                 sendResult.setTransactionId(responseHeader.getTransactionId());
                 String regionId = response.getExtFields().get(MessageConst.PROPERTY_MSG_REGION);
                 String traceOn = response.getExtFields().get(MessageConst.PROPERTY_TRACE_SWITCH);
@@ -558,6 +582,10 @@ public class MQClientAPIImpl {
         final CommunicationMode communicationMode, //
         final PullCallback pullCallback//
     ) throws RemotingException, MQBrokerException, InterruptedException {
+<<<<<<< HEAD
+=======
+    	//发送PULL_MESSAGE类型的请求
+>>>>>>> rmq/master
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, requestHeader);
 
         switch (communicationMode) {
@@ -670,6 +698,10 @@ public class MQClientAPIImpl {
 
     public long searchOffset(final String addr, final String topic, final int queueId, final long timestamp, final long timeoutMillis)
         throws RemotingException, MQBrokerException, InterruptedException {
+<<<<<<< HEAD
+=======
+        //封装头信息
+>>>>>>> rmq/master
         SearchOffsetRequestHeader requestHeader = new SearchOffsetRequestHeader();
         requestHeader.setTopic(topic);
         requestHeader.setQueueId(queueId);
@@ -1184,7 +1216,11 @@ public class MQClientAPIImpl {
 
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ROUTEINTO_BY_TOPIC, requestHeader);
 
+<<<<<<< HEAD
         RemotingCommand response = this.remotingClient.invokeSync(null, request, timeoutMillis);
+=======
+        RemotingCommand response = this.remotingClient.invokeSync(null, request, timeoutMillis); //同步调用namesrv获取topic route info
+>>>>>>> rmq/master
         assert response != null;
         switch (response.getCode()) {
             case ResponseCode.TOPIC_NOT_EXIST: {

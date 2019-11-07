@@ -73,18 +73,35 @@ public class BrokerStartup {
     }
 
     public static BrokerController createBrokerController(String[] args) {
+<<<<<<< HEAD
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
 
+=======
+    	//设置版本
+        System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
+
+        // Socket发送缓冲区大小
+>>>>>>> rmq/master
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
             NettySystemConfig.socketSndbufSize = 131072;
         }
 
+<<<<<<< HEAD
+=======
+     // Socket接收缓冲区大小
+>>>>>>> rmq/master
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_RCVBUF_SIZE)) {
             NettySystemConfig.socketRcvbufSize = 131072;
         }
 
         try {
+<<<<<<< HEAD
             //PackageConflictDetect.detectFastjson();
+=======
+            //PackageConflictDetect.detectFastjson();    
+        	
+        	// 解析命令行
+>>>>>>> rmq/master
             Options options = ServerUtil.buildCommandlineOptions(new Options());
             commandLine = ServerUtil.parseCmdLine("mqbroker", args, buildCommandlineOptions(options),
                 new PosixParser());
@@ -92,17 +109,40 @@ public class BrokerStartup {
                 System.exit(-1);
             }
 
+<<<<<<< HEAD
             final BrokerConfig brokerConfig = new BrokerConfig();
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             final NettyClientConfig nettyClientConfig = new NettyClientConfig();
             nettyServerConfig.setListenPort(10911);
             final MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
 
+=======
+            // 初始化配置文件
+            final BrokerConfig brokerConfig = new BrokerConfig();
+            
+            //如果我们直接运行的话会报一个错误
+            //Please set the ROCKETMQ_HOME variable in your environment to match the location of the RocketMQ installation
+            brokerConfig.setRocketmqHome("D:\\eclipse-workspace\\rocketmq-rocketmq-all-4.1.0-incubating\\rocketmq-rocketmq-all-4.1.0-incubating\\distribution");
+            brokerConfig.setNamesrvAddr("localhost:9876");
+            
+            final NettyServerConfig nettyServerConfig = new NettyServerConfig();
+            final NettyClientConfig nettyClientConfig = new NettyClientConfig();
+            nettyServerConfig.setListenPort(10911);
+            
+            //配置信息
+            final MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
+
+            // 如果是slave，修改默认值 - 10
+>>>>>>> rmq/master
             if (BrokerRole.SLAVE == messageStoreConfig.getBrokerRole()) {
                 int ratio = messageStoreConfig.getAccessMessageInMemoryMaxRatio() - 10;
                 messageStoreConfig.setAccessMessageInMemoryMaxRatio(ratio);
             }
 
+<<<<<<< HEAD
+=======
+            // 指定配置文件
+>>>>>>> rmq/master
             if (commandLine.hasOption('c')) {
                 String file = commandLine.getOptionValue('c');
                 if (file != null) {
@@ -130,12 +170,22 @@ public class BrokerStartup {
                 System.exit(-2);
             }
 
+<<<<<<< HEAD
             String namesrvAddr = brokerConfig.getNamesrvAddr();
             if (null != namesrvAddr) {
                 try {
                     String[] addrArray = namesrvAddr.split(";");
                     for (String addr : addrArray) {
                         RemotingUtil.string2SocketAddress(addr);
+=======
+            //获取namesrv地址
+            String namesrvAddr = brokerConfig.getNamesrvAddr();
+            if (null != namesrvAddr) {
+                try {
+                    String[] addrArray = namesrvAddr.split(";");  //看到这里就知道为什么多个以 ; 分隔了
+                    for (String addr : addrArray) {
+                        RemotingUtil.string2SocketAddress(addr); //转换SocketAddress对象
+>>>>>>> rmq/master
                     }
                 } catch (Exception e) {
                     System.out.printf(
@@ -145,6 +195,7 @@ public class BrokerStartup {
                 }
             }
 
+<<<<<<< HEAD
             switch (messageStoreConfig.getBrokerRole()) {
                 case ASYNC_MASTER:
                 case SYNC_MASTER:
@@ -152,6 +203,16 @@ public class BrokerStartup {
                     break;
                 case SLAVE:
                     if (brokerConfig.getBrokerId() <= 0) {
+=======
+            // BrokerId事项
+            switch (messageStoreConfig.getBrokerRole()) {
+                case ASYNC_MASTER:
+                case SYNC_MASTER:
+                    brokerConfig.setBrokerId(MixAll.MASTER_ID);    // 知道为什么主是 0  
+                    break;
+                case SLAVE:
+                    if (brokerConfig.getBrokerId() <= 0) {   //从必须 > 0
+>>>>>>> rmq/master
                         System.out.printf("Slave's brokerId must be > 0");
                         System.exit(-3);
                     }
@@ -161,6 +222,10 @@ public class BrokerStartup {
                     break;
             }
 
+<<<<<<< HEAD
+=======
+         // Master监听Slave请求的端口，默认为服务端口+1
+>>>>>>> rmq/master
             messageStoreConfig.setHaListenPort(nettyServerConfig.getListenPort() + 1);
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
@@ -168,14 +233,22 @@ public class BrokerStartup {
             lc.reset();
             configurator.doConfigure(brokerConfig.getRocketmqHome() + "/conf/logback_broker.xml");
 
+<<<<<<< HEAD
             if (commandLine.hasOption('p')) {
+=======
+            if (commandLine.hasOption('p')) {//打印所有字段
+>>>>>>> rmq/master
                 Logger console = LoggerFactory.getLogger(LoggerName.BROKER_CONSOLE_NAME);
                 MixAll.printObjectProperties(console, brokerConfig);
                 MixAll.printObjectProperties(console, nettyServerConfig);
                 MixAll.printObjectProperties(console, nettyClientConfig);
                 MixAll.printObjectProperties(console, messageStoreConfig);
                 System.exit(0);
+<<<<<<< HEAD
             } else if (commandLine.hasOption('m')) {
+=======
+            } else if (commandLine.hasOption('m')) { //打印重要字段
+>>>>>>> rmq/master
                 Logger console = LoggerFactory.getLogger(LoggerName.BROKER_CONSOLE_NAME);
                 MixAll.printObjectProperties(console, brokerConfig, true);
                 MixAll.printObjectProperties(console, nettyServerConfig, true);

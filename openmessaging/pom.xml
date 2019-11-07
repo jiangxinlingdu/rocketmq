@@ -20,7 +20,11 @@
     <parent>
         <artifactId>rocketmq-all</artifactId>
         <groupId>org.apache.rocketmq</groupId>
+<<<<<<< HEAD
         <version>4.2.0-incubating-SNAPSHOT</version>
+=======
+        <version>4.1.0-incubating</version>
+>>>>>>> rmq/master
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

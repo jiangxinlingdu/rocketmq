@@ -16,6 +16,12 @@
  */
 package org.apache.rocketmq.common.admin;
 
+<<<<<<< HEAD
+=======
+/**
+ * Topic 统计信息信息
+ */
+>>>>>>> rmq/master
 public class TopicOffset {
     private long minOffset;
     private long maxOffset;

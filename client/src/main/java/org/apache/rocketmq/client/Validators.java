@@ -105,6 +105,12 @@ public class Validators {
             throw new MQClientException(ResponseCode.MESSAGE_ILLEGAL, "the message body length is zero");
         }
 
+<<<<<<< HEAD
+=======
+        /**
+         * 消息内容不要超过4M
+         */
+>>>>>>> rmq/master
         if (msg.getBody().length > defaultMQProducer.getMaxMessageSize()) {
             throw new MQClientException(ResponseCode.MESSAGE_ILLEGAL,
                 "the message body size over max value, MAX: " + defaultMQProducer.getMaxMessageSize());
@@ -122,17 +128,35 @@ public class Validators {
             throw new MQClientException("The specified topic is blank", null);
         }
 
+<<<<<<< HEAD
+=======
+        /**
+         * topic的正则表达式验证：^[%|a-zA-Z0-9_-]+$
+         */
+>>>>>>> rmq/master
         if (!regularExpressionMatcher(topic, PATTERN)) {
             throw new MQClientException(String.format(
                 "The specified topic[%s] contains illegal characters, allowing only %s", topic,
                 VALID_PATTERN_STR), null);
         }
 
+<<<<<<< HEAD
+=======
+        /**
+         * topic的长度不要超过255
+         */
+>>>>>>> rmq/master
         if (topic.length() > CHARACTER_MAX_LENGTH) {
             throw new MQClientException("The specified topic is longer than topic max length 255.", null);
         }
 
         //whether the same with system reserved keyword
+<<<<<<< HEAD
+=======
+        /**
+         * topic不能是系统保留的TBW102
+         */
+>>>>>>> rmq/master
         if (topic.equals(MixAll.DEFAULT_TOPIC)) {
             throw new MQClientException(
                 String.format("The topic[%s] is conflict with default topic.", topic), null);

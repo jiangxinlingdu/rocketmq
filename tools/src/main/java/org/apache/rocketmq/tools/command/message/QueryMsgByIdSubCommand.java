@@ -41,7 +41,14 @@ import org.apache.rocketmq.tools.admin.api.MessageTrack;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+<<<<<<< HEAD
 public class QueryMsgByIdSubCommand implements SubCommand {
+=======
+/**
+ * 根据消息Id查询消息
+ */
+ public class QueryMsgByIdSubCommand implements SubCommand {
+>>>>>>> rmq/master
     public static void queryById(final DefaultMQAdminExt admin, final String msgId) throws MQClientException,
         RemotingException, MQBrokerException, InterruptedException, IOException {
         MessageExt msg = admin.viewMessage(msgId);
@@ -55,6 +62,10 @@ public class QueryMsgByIdSubCommand implements SubCommand {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // 存储消息 body 到指定路径
+>>>>>>> rmq/master
         String bodyTmpFilePath = createBodyFile(msg);
         String msgId = msg.getMsgId();
         if (msg instanceof MessageClientExt) {

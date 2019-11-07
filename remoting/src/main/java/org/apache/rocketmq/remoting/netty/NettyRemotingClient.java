@@ -65,6 +65,12 @@ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * Remoting客户端实现
+ */
+>>>>>>> rmq/master
 public class NettyRemotingClient extends NettyRemotingAbstract implements RemotingClient {
     private static final Logger log = LoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
 
@@ -75,19 +81,35 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
     private final EventLoopGroup eventLoopGroupWorker;
     private final Lock lockChannelTables = new ReentrantLock();
     private final ConcurrentMap<String /* addr */, ChannelWrapper> channelTables = new ConcurrentHashMap<String, ChannelWrapper>();
+<<<<<<< HEAD
 
     private final Timer timer = new Timer("ClientHouseKeepingService", true);
 
+=======
+ // 定时器
+    private final Timer timer = new Timer("ClientHouseKeepingService", true);
+ // Name server相关
+>>>>>>> rmq/master
     private final AtomicReference<List<String>> namesrvAddrList = new AtomicReference<List<String>>();
     private final AtomicReference<String> namesrvAddrChoosed = new AtomicReference<String>();
     private final AtomicInteger namesrvIndex = new AtomicInteger(initValueIndex());
     private final Lock lockNamesrvChannel = new ReentrantLock();
+<<<<<<< HEAD
 
+=======
+ // 处理Callback应答器
+>>>>>>> rmq/master
     private final ExecutorService publicExecutor;
     private final ChannelEventListener channelEventListener;
     private DefaultEventExecutorGroup defaultEventExecutorGroup;
     private RPCHook rpcHook;
 
+<<<<<<< HEAD
+=======
+    /**
+     * Remoting客户端实现
+     */
+>>>>>>> rmq/master
     public NettyRemotingClient(final NettyClientConfig nettyClientConfig) {
         this(nettyClientConfig, null);
     }
@@ -142,6 +164,10 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
                 }
             });
 
+<<<<<<< HEAD
+=======
+        //netty客户端
+>>>>>>> rmq/master
         Bootstrap handler = this.bootstrap.group(this.eventLoopGroupWorker).channel(NioSocketChannel.class)//
             .option(ChannelOption.TCP_NODELAY, true)
             .option(ChannelOption.SO_KEEPALIVE, false)
@@ -153,9 +179,15 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(
                         defaultEventExecutorGroup,
+<<<<<<< HEAD
                         new NettyEncoder(),
                         new NettyDecoder(),
                         new IdleStateHandler(0, 0, nettyClientConfig.getClientChannelMaxIdleTimeSeconds()),
+=======
+                        new NettyEncoder(), //编码
+                        new NettyDecoder(), //解码
+                        new IdleStateHandler(0, 0, nettyClientConfig.getClientChannelMaxIdleTimeSeconds()), //心跳检查
+>>>>>>> rmq/master
                         new NettyConnectManageHandler(),
                         new NettyClientHandler());
                 }
@@ -372,6 +404,10 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
         return this.createChannel(addr);
     }
 
+<<<<<<< HEAD
+=======
+    //就有取，没有就创建namessrv channel
+>>>>>>> rmq/master
     private Channel getAndCreateNameserverChannel() throws InterruptedException {
         String addr = this.namesrvAddrChoosed.get();
         if (addr != null) {
@@ -443,6 +479,10 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
                 }
 
                 if (createNewConnection) {
+<<<<<<< HEAD
+=======
+                    //Connect
+>>>>>>> rmq/master
                     ChannelFuture channelFuture = this.bootstrap.connect(RemotingHelper.string2SocketAddress(addr));
                     log.info("createChannel: begin to connect remote host[{}] asynchronously", addr);
                     cw = new ChannelWrapper(channelFuture);
@@ -526,7 +566,11 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
         }
 
         Pair<NettyRequestProcessor, ExecutorService> pair = new Pair<NettyRequestProcessor, ExecutorService>(processor, executorThis);
+<<<<<<< HEAD
         this.processorTable.put(requestCode, pair);
+=======
+        this.processorTable.put(requestCode, pair); //注册RPC处理器
+>>>>>>> rmq/master
     }
 
     @Override

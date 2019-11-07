@@ -29,6 +29,12 @@ import org.apache.rocketmq.store.ConsumeQueueExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+/**
+ * 拉消息请求管理，如果拉不到消息，则在这里Hold住，等待消息到来
+ */
+>>>>>>> rmq/master
 public class PullRequestHoldService extends ServiceThread {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private static final String TOPIC_QUEUEID_SEPARATOR = "@";
@@ -68,6 +74,10 @@ public class PullRequestHoldService extends ServiceThread {
         log.info("{} service started", this.getServiceName());
         while (!this.isStopped()) {
             try {
+<<<<<<< HEAD
+=======
+                //Consumer订阅消息时，Broker是否开启长轮询
+>>>>>>> rmq/master
                 if (this.brokerController.getBrokerConfig().isLongPollingEnable()) {
                     this.waitForRunning(5 * 1000);
                 } else {

@@ -33,6 +33,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
+<<<<<<< HEAD
+=======
+/**
+ * IO操作
+ */
+>>>>>>> rmq/master
 public class IOTinyUtils {
 
     static public String toString(InputStream input, String encoding) throws IOException {
@@ -56,6 +62,12 @@ public class IOTinyUtils {
         return count;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 从输入流读行列表。保证不返回NULL。
+     */
+>>>>>>> rmq/master
     static public List<String> readLines(Reader input) throws IOException {
         BufferedReader reader = toBufferedReader(input);
         List<String> list = new ArrayList<String>();
@@ -114,8 +126,14 @@ public class IOTinyUtils {
         fileOrDir.delete();
     }
 
+<<<<<<< HEAD
     /**
 
+=======
+
+    /**
+     * 清理目录下的内容
+>>>>>>> rmq/master
      */
     public static void cleanDirectory(File directory) throws IOException {
         if (!directory.exists()) {

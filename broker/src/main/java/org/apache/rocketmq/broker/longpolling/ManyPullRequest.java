@@ -19,6 +19,12 @@ package org.apache.rocketmq.broker.longpolling;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+/**
+ * 长轮询请求
+ */
+>>>>>>> rmq/master
 public class ManyPullRequest {
     private final ArrayList<PullRequest> pullRequestList = new ArrayList<>();
 

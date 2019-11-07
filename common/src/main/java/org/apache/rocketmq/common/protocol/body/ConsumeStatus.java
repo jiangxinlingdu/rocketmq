@@ -17,13 +17,23 @@
 
 package org.apache.rocketmq.common.protocol.body;
 
+<<<<<<< HEAD
+=======
+/**
+ * 消费过程的统计数据
+ */
+>>>>>>> rmq/master
 public class ConsumeStatus {
     private double pullRT;
     private double pullTPS;
     private double consumeRT;
     private double consumeOKTPS;
     private double consumeFailedTPS;
+<<<<<<< HEAD
 
+=======
+    // 最近一小时内消费失败的消息数
+>>>>>>> rmq/master
     private long consumeFailedMsgs;
 
     public double getPullRT() {

@@ -20,6 +20,12 @@ package org.apache.rocketmq.remoting.netty;
 import io.netty.channel.Channel;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 
+<<<<<<< HEAD
+=======
+/**
+ *请求任务
+ */
+>>>>>>> rmq/master
 public class RequestTask implements Runnable {
     private final Runnable runnable;
     private final long createTimestamp = System.currentTimeMillis();

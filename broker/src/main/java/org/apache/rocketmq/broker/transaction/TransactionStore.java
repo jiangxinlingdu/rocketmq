@@ -19,6 +19,12 @@ package org.apache.rocketmq.broker.transaction;
 
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+/**
+ * 事务存储接口，主要为分布式事务消息存储服务
+ */
+>>>>>>> rmq/master
 public interface TransactionStore {
     boolean open();
 
