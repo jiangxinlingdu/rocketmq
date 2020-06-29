@@ -87,6 +87,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
+                    //由于请求 broker 的消息锁 会过期，所以需要不断刷新该锁的过期时间
                     ConsumeMessageOrderlyService.this.lockMQPeriodically();
                 }
             }, 1000 * 1, ProcessQueue.REBALANCE_LOCK_INTERVAL, TimeUnit.MILLISECONDS);
