@@ -678,6 +678,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
                     MessageClientIDSetter.setUniqID(msg);
                 }
 
+                //系统标记
                 int sysFlag = 0;
                 boolean msgBodyCompressed = false;
                 if (this.tryToCompressMessage(msg)) {
@@ -689,6 +690,8 @@ public class DefaultMQProducerImpl implements MQProducerInner {
                 if (tranMsg != null && Boolean.parseBoolean(tranMsg)) {
                     sysFlag |= MessageSysFlag.TRANSACTION_PREPARED_TYPE;
                 }
+
+                //在这块类似的加一个 msg.getProperty(MessageConst.xxxx); 类似属性，加了后面就可以获取了。
 
                 if (hasCheckForbiddenHook()) {
                     CheckForbiddenContext checkForbiddenContext = new CheckForbiddenContext();
